@@ -39,6 +39,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "qs"
+            ],
             "outputPath": "dist/ng-material",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -97,7 +100,8 @@
               "browserTarget": "ng-material:build:production"
             },
             "development": {
-              "browserTarget": "ng-material:build:development"
+              "browserTarget": "ng-material:build:development",
+              "port": 8888
             }
           },
           "defaultConfiguration": "development"
