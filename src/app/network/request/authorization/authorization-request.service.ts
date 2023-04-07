@@ -6,17 +6,23 @@ import { Md5 } from 'ts-md5'
 
 import { UserUrl } from "../../url/user.url";
 import { DigestResponse } from "../../entity/digest-response.entity";
+import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from "@angular/router";
+import { Observable } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
-export class AuthorizationRequestService {
+export class AuthorizationRequestService implements CanActivate {
   // 计数器
   private _nc = 0;
 
   private _username: string = "";
   private _password: string = "";
 
+
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    return true;
+  }
   login(username: string,
     password: string) {
     this.loginByAccount(username, password)
