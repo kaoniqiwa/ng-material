@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import axios, { AxiosError } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 import qs from 'qs';
 import { plainToInstance } from 'class-transformer'
 import { Md5 } from 'ts-md5'
@@ -8,6 +8,7 @@ import { UserUrl } from "../../url/user.url";
 import { DigestResponse } from "../../entity/digest-response.entity";
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Observable } from "rxjs";
+import { User } from "../../entity/user.entity";
 
 @Injectable({
   providedIn: "root"
@@ -15,6 +16,7 @@ import { Observable } from "rxjs";
 export class AuthorizationRequestService implements CanActivate {
   // 计数器
   private _nc = 0;
+  private _config: AxiosRequestConfig = {};
 
   private _username: string = "";
   private _password: string = "";
@@ -30,37 +32,30 @@ export class AuthorizationRequestService implements CanActivate {
   loginByAccount(username: string, password: string) {
     this._username = username;
     this._password = password;
+    this._config.url = UserUrl.login(username);
+    this._config.headers = {
+      'X-Webbrowser-Authentication': 'Forbidden',
+    }
+
     axios.request(
-      {
-        method: 'get',
-        url: UserUrl.login(username),
-        headers: {
-          'X-Webbrowser-Authentication': 'Forbidden',
-        }
-      }
+      this._config
     ).catch((error: AxiosError) => {
-      console.log(error)
       if (error.response?.status == 403) {
         let headers = error.response.headers;
         let authenticateHeader = Reflect.get(headers, 'www-authenticate');
         let challenge = this._parseAuthenticateHeader(authenticateHeader);
 
-        axios.request(
-          {
-            method: 'get',
-            url: UserUrl.login(username),
-            headers: {
+        this._config.headers!['Authorization'] = this._generateChallengeHeader(
+          challenge,
+          'GET',
+          UserUrl.login(username)
+        );
 
-              'X-Webbrowser-Authentication': 'Forbidden',
-              Authorization: this._generateChallengeHeader(
-                challenge,
-                'GET',
-                UserUrl.login(username)
-              )
-            }
-          }
+        axios.request(
+          this._config
         ).then(res => {
-          console.log(res)
+          let user = plainToInstance(User, res.data)
+          console.log(user)
         })
       }
     })

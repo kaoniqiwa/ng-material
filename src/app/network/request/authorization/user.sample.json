@@ -1,0 +1,49 @@
+{
+  "Id": "1000001",
+  "Username": "test01",
+  "Password": null,
+  "PasswordHash": null,
+  "PasswordSalt": null,
+  "FirstName": null,
+  "LastName": "测试人员",
+  "Gender": 1,
+  "MobileNo": null,
+  "Email": null,
+  "Note": null,
+  "ExpiredTime": "2099-01-01T15:00:56",
+  "CreateTime": "2019-03-06T15:01:12",
+  "UpdateTime": "2019-06-21T15:06:13.645524",
+  "State": 0,
+  "Role": [
+    {
+      "Id": "6319ffa7-0749-472e-bc91-48693fee8930",
+      "Name": "管理员",
+      "CreateTime": "2019-03-06T15:40:12",
+      "UpdateTime": "2019-03-06T15:40:16",
+      "PrivacyData": 1,
+      "UserData": 1,
+      "StaticData": 1,
+      "PictureData": 1,
+      "Resources": [],
+      "ServerId": null
+    }
+  ],
+  "OpenId": null,
+  "Resources": [
+    {
+      "Id": "310110000000",
+      "Name": "杨浦区",
+      "ResourceType": 4,
+      "RoleFlags": 0,
+      "AllSubResources": true,
+      "Resources": []
+    }
+  ],
+  "ServerId": null,
+  "CanCreateWeChatUser": null,
+  "CreatorId": null,
+  "OffEvents": [],
+  "UserType": 1,
+  "RandomPassword": null,
+  "RandomPasswordExpiredTime": null
+}

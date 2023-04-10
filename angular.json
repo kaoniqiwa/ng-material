@@ -101,7 +101,7 @@
             },
             "development": {
               "browserTarget": "ng-material:build:development",
-              "port": 8888
+              "port": 9520
             }
           },
           "defaultConfiguration": "development"

@@ -1,8 +1,8 @@
 html,
 body {
   height: 100%;
-  min-width: 800px;
-  min-height: 600px;
+  /* min-width: 800px;
+  min-height: 600px; */
   font-family: "Source Han Sans CN Normal";
   /* background: hsl(214, 13%, 25%); */
   color: #99abb4;

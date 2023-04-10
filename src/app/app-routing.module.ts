@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthorizationRequestService } from './network/request/authorization/authorization-request.service';
-import { RouterPath } from './enum/router.path';
+import { RouterPath } from './enum/router.enum';
 
 const routes: Routes = [
   {
