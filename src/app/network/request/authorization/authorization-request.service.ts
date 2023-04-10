@@ -9,6 +9,7 @@ import { DigestResponse } from "../../entity/digest-response.entity";
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from "@angular/router";
 import { Observable } from "rxjs";
 import { User } from "../../entity/user.entity";
+import { LocalStorageService } from "src/app/common/service/local-storage.service";
 
 @Injectable({
   providedIn: "root"
@@ -21,25 +22,29 @@ export class AuthorizationRequestService implements CanActivate {
   private _username: string = "";
   private _password: string = "";
 
+  constructor(private _localStorageService: LocalStorageService) {
+
+  }
+
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
     return true;
   }
-  login(username: string,
-    password: string) {
-    this.loginByAccount(username, password)
-  }
-  loginByAccount(username: string, password: string) {
+
+  async loginByAccount(username: string, password: string) {
     this._username = username;
     this._password = password;
+
     this._config.url = UserUrl.login(username);
     this._config.headers = {
       'X-Webbrowser-Authentication': 'Forbidden',
     }
 
-    axios.request(
+
+    return axios.request(
       this._config
     ).catch((error: AxiosError) => {
+      // 第一遍请求服务器返回403并带上认证信息
       if (error.response?.status == 403) {
         let headers = error.response.headers;
         let authenticateHeader = Reflect.get(headers, 'www-authenticate');
@@ -51,13 +56,15 @@ export class AuthorizationRequestService implements CanActivate {
           UserUrl.login(username)
         );
 
-        axios.request(
+        return axios.request(
           this._config
         ).then(res => {
           let user = plainToInstance(User, res.data)
-          console.log(user)
+
+          return user;
+
         })
-      }
+      } return null;
     })
   }
   /**

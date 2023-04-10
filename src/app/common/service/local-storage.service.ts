@@ -6,7 +6,7 @@ import { User } from "src/app/network/entity/user.entity";
 })
 export class LocalStorageService {
 
-  set User(user: User) {
+  set user(user: User) {
     localStorage.setItem('user', JSON.stringify(user))
   }
   get user() {
