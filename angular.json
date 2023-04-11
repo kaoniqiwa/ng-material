@@ -8,7 +8,8 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "less",
-          "skipTests": true
+          "skipTests": true,
+          "prefix": ""
         },
         "@schematics/angular:class": {
           "skipTests": true
@@ -53,6 +54,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.less"
             ],
             "scripts": []
@@ -125,6 +127,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.less"
             ],
             "scripts": []

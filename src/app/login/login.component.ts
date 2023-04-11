@@ -8,6 +8,7 @@ import { CookieOptions, CookieService } from 'ngx-cookie-service';
 import { Md5 } from 'ts-md5';
 import { Router } from '@angular/router';
 import { RouterPath } from '../enum/router.enum';
+import { encode, decode } from 'js-base64'
 
 @Component({
   selector: 'app-login',
@@ -63,13 +64,13 @@ export class LoginComponent implements OnInit {
     }
     let prefix = Md5.hashStr((Math.random() * 1e9 | 0).toString(16).padStart(8, '0'))
     let suffix = Md5.hashStr((Math.random() * 1e9 | 0).toString(16).padStart(8, '0'))
-    let base64_username = btoa(prefix + username + suffix);
+    let base64_username = encode(prefix + username + suffix);
     this._cookieService.set('username', base64_username, option)
 
 
     prefix = Md5.hashStr((Math.random() * 1e9 | 0).toString(16).padStart(8, '0'))
     suffix = Md5.hashStr((Math.random() * 1e9 | 0).toString(16).padStart(8, '0'))
-    let base64_password = btoa(prefix + password + suffix);
+    let base64_password = encode(prefix + password + suffix);
     this._cookieService.set('password', base64_password, option)
 
   }

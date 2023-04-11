@@ -14,7 +14,7 @@ import { AppRoutingModule } from './app-routing.module';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,6 +30,8 @@ import { AppRoutingModule } from './app-routing.module';
       progressAnimation: 'increasing',
       tapToDismiss: true,
     }),
+
+
   ],
   providers: [CookieService],
   bootstrap: [AppComponent]
