@@ -1,20 +1,24 @@
-import { NgModule } from "@angular/core";
-import { COMPONENTS } from "./components";
-import { CommonModule } from "@angular/common";
-
-
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { MaterialModule } from '../material.module';
+import { AccountInfoComponent } from './components/account-info/account-info.component';
+import { AccountOperationComponent } from './components/account-operation/account-operation.component';
+import { CommonTimeComponent } from './components/common-time/common-time.component';
+import { SideNavComponent } from './components/side-nav/side-nav.component';
 
 @NgModule({
   declarations: [
-    COMPONENTS
+    CommonTimeComponent,
+    AccountOperationComponent,
+    AccountInfoComponent,
+    SideNavComponent,
   ],
   exports: [
-    COMPONENTS
+    CommonTimeComponent,
+    AccountOperationComponent,
+    AccountInfoComponent,
+    SideNavComponent,
   ],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule, MaterialModule],
 })
-export class HowellModule {
-
-}
+export class HowellModule {}

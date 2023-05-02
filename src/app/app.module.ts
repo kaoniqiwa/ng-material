@@ -1,24 +1,27 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import 'reflect-metadata';
 import { CookieService } from 'ngx-cookie-service';
+import { HttpClientModule } from '@angular/common/http';
 
 import { LoginComponent } from './login/login.component';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 
+import zh from '@angular/common/locales/zh';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(zh, 'zh-CN');
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-  ],
+  declarations: [AppComponent, LoginComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     AppRoutingModule,
     ToastrModule.forRoot({
@@ -30,10 +33,14 @@ import { AppRoutingModule } from './app-routing.module';
       progressAnimation: 'increasing',
       tapToDismiss: true,
     }),
-
-
   ],
-  providers: [CookieService],
-  bootstrap: [AppComponent]
+  providers: [
+    CookieService,
+    {
+      provide: LOCALE_ID,
+      useValue: 'zh-CN',
+    },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

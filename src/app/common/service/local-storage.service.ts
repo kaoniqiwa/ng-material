@@ -1,13 +1,12 @@
-import { Injectable } from "@angular/core";
-import { User } from "src/app/network/entity/user.entity";
+import { Injectable } from '@angular/core';
+import { User } from 'src/app/network/entity/user.entity';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalStorageService {
-
   set user(user: User) {
-    localStorage.setItem('user', JSON.stringify(user))
+    localStorage.setItem('user', JSON.stringify(user));
   }
   get user() {
     /**
@@ -17,5 +16,12 @@ export class LocalStorageService {
 
     return user === null ? null : JSON.parse(user);
   }
-}
 
+  clear(name?: string) {
+    if (name) {
+      localStorage.removeItem(name);
+    } else {
+      localStorage.clear();
+    }
+  }
+}

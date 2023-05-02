@@ -1,1 +1,21 @@
-<p>account-operation works!</p>
+<div class="account-operation">
+  <div class="account-operation__item" [matMenuTriggerFor]="menu">
+    <div class="log-out">
+      <i class="howell-icon-account"></i>
+    </div>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item>
+        <i class="howell-icon-account pmx"></i>
+        {{ username }}
+      </button>
+
+      <button mat-menu-item (click)="logoutHandler()">
+        <i class="howell-icon-logout"> </i>
+        退出登录
+      </button>
+    </mat-menu>
+  </div>
+  <div class="account-operation__item" (click)="navigateToHelp()">
+    <mat-icon> help </mat-icon>
+  </div>
+</div>

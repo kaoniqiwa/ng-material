@@ -1,79 +1,165 @@
-import { Injectable } from "@angular/core";
-import axios, { AxiosError, AxiosRequestConfig } from 'axios'
+import { Injectable } from '@angular/core';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 import qs from 'qs';
-import { plainToInstance } from 'class-transformer'
-import { Md5 } from 'ts-md5'
+import { plainToInstance } from 'class-transformer';
+import { Md5 } from 'ts-md5';
+import { CookieOptions, CookieService } from 'ngx-cookie-service';
+import { encode, decode } from 'js-base64';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
+import { Observable, catchError, lastValueFrom, of, map } from 'rxjs';
+import { AjaxConfig, AjaxError, ajax } from 'rxjs/ajax';
 
-import { UserUrl } from "../../url/user.url";
-import { DigestResponse } from "../../entity/digest-response.entity";
-import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree } from "@angular/router";
-import { Observable } from "rxjs";
-import { User } from "../../entity/user.entity";
-import { LocalStorageService } from "src/app/common/service/local-storage.service";
+import { UserUrl } from '../../url/user.url';
+import { DigestResponse } from '../../entity/digest-response.entity';
+import { User } from '../../entity/user.entity';
+import { LocalStorageService } from 'src/app/common/service/local-storage.service';
+import { SessionStorageService } from 'src/app/common/service/session-storage.service';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable({
-  providedIn: "root"
+  providedIn: 'root',
 })
 export class AuthorizationRequestService implements CanActivate {
   // 计数器
   private _nc = 0;
-  private _config: AxiosRequestConfig = {};
 
-  private _username: string = "";
-  private _password: string = "";
+  private _username: string = '';
+  private _password: string = '';
 
-  constructor(private _localStorageService: LocalStorageService) {
+  constructor(
+    private _http: HttpClient,
+    private _router: Router,
+    private _localStorage: LocalStorageService,
+    private _sessionStorage: SessionStorageService,
+    private _cookieService: CookieService
+  ) {
+    if (this._cookieService.check('username')) {
+      let username = this._cookieService.get('username');
+      username = decode(username);
+      let res = username.match(
+        /[a-zA-Z0-9+/=]{32}(?<username>\w*)[a-zA-Z0-9+/=]{32}/
+      )!;
 
+      this._username = res.groups!['username'];
+    }
+
+    if (this._cookieService.check('password')) {
+      let password = this._cookieService.get('password');
+      password = decode(password);
+      let res = password.match(
+        /[a-zA-Z0-9+/=]{32}(?<password>\w*)[a-zA-Z0-9+/=]{32}/
+      )!;
+
+      this._password = res.groups!['password'];
+    }
   }
 
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+    let challenge = this._sessionStorage.challenge;
+    let user = this._localStorage.user;
+    let holdCookie = this._cookieService.check('username');
+    if (challenge && user && user.Id && holdCookie) {
+      return true;
+    }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
-    return true;
+    return this._router.navigateByUrl('/login');
   }
-
-  async loginByAccount(username: string, password: string) {
+  async login(username: string, password: string) {
     this._username = username;
     this._password = password;
 
-    this._config.url = UserUrl.login(username);
-    this._config.headers = {
-      'X-Webbrowser-Authentication': 'Forbidden',
-    }
+    return this.loginByAxios();
+    // return this.loginByAjax();
 
+    // this.loginByHttpClient();
+    return [];
+  }
 
-    return axios.request(
-      this._config
-    ).catch((error: AxiosError) => {
+  async loginByAxios() {
+    let config: AxiosRequestConfig = {
+      url: UserUrl.login(this._username),
+      headers: {
+        'X-Webbrowser-Authentication': 'Forbidden',
+      },
+    };
+
+    return axios.request(config).catch((error: AxiosError) => {
       // 第一遍请求服务器返回403并带上认证信息
       if (error.response?.status == 403) {
         let headers = error.response.headers;
         let authenticateHeader = Reflect.get(headers, 'www-authenticate');
         let challenge = this._parseAuthenticateHeader(authenticateHeader);
 
-        this._config.headers!['Authorization'] = this._generateChallengeHeader(
+        config.headers!['Authorization'] = this._generateChallengeHeader(
           challenge,
           'GET',
-          UserUrl.login(username)
+          UserUrl.login(this._username)
         );
 
-        return axios.request(
-          this._config
-        ).then(res => {
-          let user = plainToInstance(User, res.data)
+        return axios.request(config).then((res) => {
+          let user = plainToInstance(User, res.data);
+          this._sessionStorage.challenge = challenge;
+          this._localStorage.user = user;
+
+          this._storeUserInfo(this._username, this._password);
 
           return user;
-
-        })
-      } return null;
-    })
+        });
+      }
+      return null;
+    });
   }
+
+  async loginByAjax() {
+    let config: AjaxConfig = {
+      url: UserUrl.login(this._username),
+      headers: {
+        'X-Webbrowser-Authentication': 'Forbidden',
+      },
+    };
+    return lastValueFrom(ajax(config).pipe(catchError(handleError.bind(this))));
+
+    function handleError(this: AuthorizationRequestService, error: AjaxError) {
+      if (error.status == 403) {
+        let authenticateHeader =
+          error.xhr.getResponseHeader('www-authenticate') ?? '';
+        let challenge = this._parseAuthenticateHeader(authenticateHeader);
+        config.headers = {
+          'X-Webbrowser-Authentication': 'Forbidden',
+          Authorization: this._generateChallengeHeader(
+            challenge,
+            'GET',
+            UserUrl.login(this._username)
+          ),
+        };
+        this._sessionStorage.challenge = challenge;
+      }
+      return ajax(config).pipe(
+        map((val) => plainToInstance(User, val.response))
+      );
+    }
+  }
+  async loginByHttpClient() {
+    this._http.get(UserUrl.login(this._username));
+  }
+
   /**
    * Digest realm="howell.net.cn", qop="auth", nonce="b7741dcfe0854ec8adc73a2b59896db1", opaque="37039025b2f4e2f9b2be52150ec951ef", stale="FALSE", algorithm="MD5"
- */
+   */
   private _parseAuthenticateHeader(authenticate: string): DigestResponse {
-    let fields_str = authenticate.replace(/Digest\s/i, '').replace(/\s/g, '').replace(/\"/g, '');
-    let plain = qs.parse(fields_str, { delimiter: ',' })
-    let challenge = plainToInstance(DigestResponse, plain)
+    let fields_str = authenticate
+      .replace(/Digest\s/i, '')
+      .replace(/\s/g, '')
+      .replace(/\"/g, '');
+    let plain = qs.parse(fields_str, { delimiter: ',' });
+    let challenge = plainToInstance(DigestResponse, plain);
     return challenge;
   }
   private _parseAuthenticateHeader_old(authenticate: string): DigestResponse {
@@ -101,7 +187,6 @@ export class AuthorizationRequestService implements CanActivate {
     }
     return challenge;
   }
-
 
   private _generateChallengeHeader(
     challenge: DigestResponse,
@@ -132,4 +217,52 @@ export class AuthorizationRequestService implements CanActivate {
     return authorization;
   }
 
+  /**
+   * 保存登录账号
+   * @param username
+   * @param password
+   */
+  private _storeUserInfo(username: string, password: string) {
+    // 设置cookie 1 小时后过期
+    let option: CookieOptions = {
+      expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
+      path: '/',
+      secure: false,
+    };
+    let prefix = Md5.hashStr(
+      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
+    );
+    let suffix = Md5.hashStr(
+      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
+    );
+    let base64_username = encode(prefix + username + suffix);
+    this._cookieService.set('username', base64_username, option);
+
+    prefix = Md5.hashStr(
+      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
+    );
+    suffix = Md5.hashStr(
+      ((Math.random() * 1e9) | 0).toString(16).padStart(8, '0')
+    );
+    let base64_password = encode(prefix + password + suffix);
+    this._cookieService.set('password', base64_password, option);
+  }
+
+  public generateHttpHeader(method: string, uri: string, contentType?: string) {
+    let chanllenge = this._sessionStorage.challenge;
+
+    const authHeader = this._generateChallengeHeader(chanllenge, method, uri);
+    if (contentType) {
+      return new HttpHeaders({
+        Authorization: authHeader,
+        'X-WebBrowser-Authentication': 'Forbidden',
+        'content-type': contentType,
+      });
+    } else {
+      return new HttpHeaders({
+        Authorization: authHeader,
+        'X-WebBrowser-Authentication': 'Forbidden',
+      });
+    }
+  }
 }

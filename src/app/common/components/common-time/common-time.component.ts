@@ -7,7 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommonTimeComponent implements OnInit {
   today = new Date();
-  constructor() { }
 
   ngOnInit(): void {
   }
