@@ -29,21 +29,15 @@ export class StationProfileManagerComponent implements OnInit {
     //     }
     //   )
     //   .then((res) => console.log(res));
-    // this.http
-    //   .post(
-    //     '/api/howell/ver10/garbage_profiles/GarbageStationProfiles/Labels/List',
-    //     {
-    //       PageIndex: 1,
-    //       PageSize: 1,
-    //     },
-    //     {
-    //       headers: this.s.generateHttpHeader(
-    //         'POST',
-    //         '/api/howell/ver10/garbage_profiles/GarbageStationProfiles/Labels/List'
-    //       ),
-    //     }
-    //   )
-    //   .subscribe(console.log);
+    this.http
+      .post(
+        '/api/howell/ver10/garbage_profiles/GarbageStationProfiles/Labels/List',
+        {
+          PageIndex: 1,
+          PageSize: 1,
+        }
+      )
+      .subscribe(console.log);
   }
 }
 

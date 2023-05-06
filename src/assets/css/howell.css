@@ -1,10 +1,10 @@
 html,
 body {
   height: 100%;
-  /* min-width: 800px;
-  min-height: 600px; */
+  min-width: 800px;
+  min-height: 600px;
   font-family: "Source Han Sans CN Normal";
-  /* background: hsl(214, 13%, 25%); */
+  background: hsl(214, 13%, 25%);
   color: #99abb4;
 }
 
@@ -14,6 +14,17 @@ body {
   overflow-y: hidden;
 }
 
+a {
+  color: #9ea2a9;
+}
+
+a:hover {
+  color: #fff;
+}
+a,
+a[href] {
+  text-decoration: none;
+}
 input[type="button"i],
 input[type="submit"i],
 input[type="reset"i],
@@ -21,40 +32,4 @@ input[type="file"i]::-webkit-file-upload-button,
 button {
   background-color: black;
   color: white;
-}
-
-::-moz-placeholder {
-  color: #cfd7ff;
-  opacity: 0.5;
-}
-
-::-webkit-input-placeholder {
-  color: #cfd7ff;
-  opacity: 0.5;
-}
-
-::-ms-placeholder {
-  color: #cfd7ff;
-  opacity: 0.5;
-}
-
-/* 滚动条整体样式*/
-::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  -webkit-transition-delay: 99999s;
-  transition-delay: 99999s;
-  -webkit-transition: color 99999s, background-color 99999s;
-  transition: color 99999s, background-color 99999s;
 }

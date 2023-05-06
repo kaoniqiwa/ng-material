@@ -1,0 +1,35 @@
+{
+  "$schema": "./sidenav.schema.json",
+  "data": [
+    {
+      "title": "垃圾厢房档案",
+      "id": "station-archive",
+      "icon": "howell-icon-garbagebags",
+      "path": "/garbage-profiles/underwater/monitor-platform/station-archive",
+      "CanNavigate": false,
+      "children": [
+        {
+          "title": "厢房档案",
+          "id": "station-profile-index",
+          "path": "/garbage-profiles/underwater/monitor-platform/station-archive/station-profile"
+        },
+        {
+          "title": "物料档案",
+          "id": "material-manager",
+          "path": "/garbage-profiles/underwater/monitor-platform/station-archive/material-profile"
+        },
+        {
+          "title": "标签",
+          "id": "label-manager",
+          "path": "/garbage-profiles/underwater/monitor-platform/station-archive/label-manager",
+          "hideSelf": true
+        },
+        {
+          "title": "维修工单档案",
+          "id": "maintenance-profile-index",
+          "path": "/garbage-profiles/underwater/monitor-platform/station-archive/maintenance-profile"
+        }
+      ]
+    }
+  ]
+}

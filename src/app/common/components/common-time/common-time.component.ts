@@ -1,14 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription, interval, timer } from 'rxjs';
 
 @Component({
   selector: 'common-time',
   templateUrl: './common-time.component.html',
-  styleUrls: ['./common-time.component.less']
+  styleUrls: ['./common-time.component.less'],
 })
-export class CommonTimeComponent implements OnInit {
-  today = new Date();
+export class CommonTimeComponent implements OnInit, OnDestroy {
+  today: number = Date.now();
+  private _subscription: Subscription | null = null;
 
+  constructor() {}
   ngOnInit(): void {
+    this._subscription = interval(1000).subscribe((n) => {
+      this.today = Date.now();
+    });
   }
-
+  ngOnDestroy() {
+    if (this._subscription) {
+      this._subscription.unsubscribe();
+      this._subscription = null;
+    }
+  }
 }

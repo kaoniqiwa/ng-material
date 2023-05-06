@@ -1,1 +1,30 @@
-<div class="side-nav">sdfsdf</div>
+<div class="side-nav" [@growShrink]="state">
+  <div class="sidenav-list">
+    <nav *ngFor="let model of models; let i = index">
+      <button
+        class="btn"
+        [class]="{ grow: state == 'grow', shrink: state == 'shrink' }"
+        [class.selected]="model.id == groups.second"
+      >
+        <i [class]="model.icon ?? 'howell-icon-device2'"></i>
+        <span *ngIf="state == 'grow'">{{ model.title }}</span>
+      </button>
+      <ul
+        *ngIf="
+          state == 'grow' && model.id == groups.second && !model.hideChildren
+        "
+      >
+        <ng-container *ngFor="let node of model.children">
+          <li [class.selected]="node.id == groups.third" *ngIf="!node.hideSelf">
+            <a [routerLink]="[node.path]"> {{ node.title }} </a>
+          </li></ng-container
+        >
+      </ul>
+    </nav>
+  </div>
+  <div class="sidenav-btn" (click)="toggle()">
+    <i class="material-icons"
+      >{{ state == "grow" ? "arrow_back" : "density_medium" }}
+    </i>
+  </div>
+</div>

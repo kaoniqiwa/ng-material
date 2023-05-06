@@ -5,6 +5,7 @@ import { AccountInfoComponent } from './components/account-info/account-info.com
 import { AccountOperationComponent } from './components/account-operation/account-operation.component';
 import { CommonTimeComponent } from './components/common-time/common-time.component';
 import { SideNavComponent } from './components/side-nav/side-nav.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,6 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
     AccountInfoComponent,
     SideNavComponent,
   ],
-  imports: [CommonModule, MaterialModule],
+  imports: [CommonModule, MaterialModule, RouterModule],
 })
 export class HowellModule {}

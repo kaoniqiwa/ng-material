@@ -5,6 +5,8 @@ import { HowellModule } from '../common/howell.module';
 import { MonitorPlatformComponent } from './components/monitor-platform/monitor-platform.component';
 import { StationArchiveComponent } from './components/station-archive/station-archive.component';
 import { StationProfileManagerComponent } from './components/station-profile-manager/station-profile-manager.component';
+import { MaterialProfileComponent } from './components/material-profile/material-profile.component';
+import { MaintenanceProfileComponent } from './components/maintenance-profile/maintenance-profile.component';
 
 const routes: Routes = [
   {
@@ -37,12 +39,20 @@ const routes: Routes = [
             children: [
               {
                 path: '',
-                redirectTo: 'station-profile-manager',
+                redirectTo: 'station-profile',
                 pathMatch: 'full',
               },
               {
-                path: 'station-profile-manager',
+                path: 'station-profile',
                 component: StationProfileManagerComponent,
+              },
+              {
+                path: 'material-profile',
+                component: MaterialProfileComponent,
+              },
+              {
+                path: 'maintenance-profile',
+                component: MaintenanceProfileComponent,
               },
             ],
           },

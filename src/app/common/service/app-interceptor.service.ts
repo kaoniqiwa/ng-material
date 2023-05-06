@@ -37,7 +37,6 @@ export class AppHttpInterceptor implements HttpInterceptor {
     if (notLogin) return EMPTY;
 
     const start = Date.now();
-
     req = req.clone({
       // 在原先header上添加
       setHeaders: {
@@ -58,16 +57,6 @@ export class AppHttpInterceptor implements HttpInterceptor {
       });
     }
 
-    // req = req.clone({
-    //   // 在原先header上添加
-    //   setHeaders: {
-    //     Authorization: this._authHeaderService.generateAuthorization(
-    //       challenge,
-    //       req.method,
-    //       req.url
-    //     ),
-    //   },
-    // });
     // 通过rxjs拦截响应
     return next.handle(req).pipe(
       // tap跟踪请求过程，会执行两次，一次是发送请求，一次是收到响应
