@@ -15,13 +15,14 @@ import {
 import { Observable, catchError, lastValueFrom, of, map } from 'rxjs';
 import { AjaxConfig, AjaxError, ajax } from 'rxjs/ajax';
 
-import { UserUrl } from '../../url/user.url';
-import { DigestResponse } from '../../entity/digest-response.entity';
-import { User } from '../../entity/user.entity';
+import { UserUrl } from '../../network/url/user.url';
+import { DigestResponse } from '../../network/entity/digest-response.entity';
+import { User } from '../../network/entity/user.entity';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { SessionStorageService } from 'src/app/common/service/session-storage.service';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
+import { HttpLoginService } from 'src/app/network/request/http/login.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,7 +39,8 @@ export class AuthorizationRequestService implements CanActivate {
     private _router: Router,
     private _localStorage: LocalStorageService,
     private _sessionStorage: SessionStorageService,
-    private _cookieService: CookieService
+    private _cookieService: CookieService,
+    private _httpLoginService: HttpLoginService
   ) {
     if (this._cookieService.check('username')) {
       let username = this._cookieService.get('username');
@@ -75,10 +77,10 @@ export class AuthorizationRequestService implements CanActivate {
     this._username = username;
     this._password = password;
 
-    return this.loginByAxios();
+    // return this.loginByAxios();
     // return this.loginByAjax();
 
-    // this.loginByHttpClient();
+    return this.loginByHttpClient();
     return [];
   }
 
@@ -147,7 +149,15 @@ export class AuthorizationRequestService implements CanActivate {
     }
   }
   async loginByHttpClient() {
-    this._http.get(UserUrl.login(this._username));
+    let res = await lastValueFrom(
+      this._httpLoginService.login(this._username, this._password)
+    );
+    let user = plainToInstance(User, res);
+
+    this._localStorage.user = user;
+    this._storeUserInfo(this._username, this._password);
+
+    return user;
   }
 
   /**
@@ -251,18 +261,21 @@ export class AuthorizationRequestService implements CanActivate {
   public generateHttpHeader(method: string, uri: string, contentType?: string) {
     let chanllenge = this._sessionStorage.challenge;
 
-    const authHeader = this._generateChallengeHeader(chanllenge, method, uri);
-    if (contentType) {
-      return new HttpHeaders({
-        Authorization: authHeader,
-        'X-WebBrowser-Authentication': 'Forbidden',
-        'content-type': contentType,
-      });
-    } else {
-      return new HttpHeaders({
-        Authorization: authHeader,
-        'X-WebBrowser-Authentication': 'Forbidden',
-      });
+    if (chanllenge) {
+      const authHeader = this._generateChallengeHeader(chanllenge, method, uri);
+      if (contentType) {
+        return new HttpHeaders({
+          Authorization: authHeader,
+          'X-WebBrowser-Authentication': 'Forbidden',
+          'content-type': contentType,
+        });
+      } else {
+        return new HttpHeaders({
+          Authorization: authHeader,
+          'X-WebBrowser-Authentication': 'Forbidden',
+        });
+      }
     }
+    return void 0;
   }
 }

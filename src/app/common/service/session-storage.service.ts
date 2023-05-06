@@ -5,8 +5,9 @@ import { DigestResponse } from 'src/app/network/entity/digest-response.entity';
   providedIn: 'root',
 })
 export class SessionStorageService {
-  set challenge(challenge: DigestResponse) {
-    sessionStorage.setItem('smart_challenge', JSON.stringify(challenge));
+  set challenge(challenge: DigestResponse | null) {
+    if (challenge)
+      sessionStorage.setItem('smart_challenge', JSON.stringify(challenge));
   }
   get challenge() {
     let challenge_str = sessionStorage.getItem('smart_challenge');

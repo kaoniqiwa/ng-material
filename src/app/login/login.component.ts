@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { AuthorizationRequestService } from '../network/request/authorization/authorization-request.service';
+import { AuthorizationRequestService } from '../common/service/authorization-request.service';
 import { User } from '../network/entity/user.entity';
 import { LocalStorageService } from '../common/service/local-storage.service';
 import { CookieOptions, CookieService } from 'ngx-cookie-service';

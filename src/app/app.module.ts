@@ -1,11 +1,11 @@
-import { LOCALE_ID, NgModule } from '@angular/core';
+import { APP_INITIALIZER, LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ToastrModule } from 'ngx-toastr';
 import 'reflect-metadata';
 import { CookieService } from 'ngx-cookie-service';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { LoginComponent } from './login/login.component';
 import { AppComponent } from './app.component';
@@ -13,6 +13,8 @@ import { AppRoutingModule } from './app-routing.module';
 
 import zh from '@angular/common/locales/zh';
 import { registerLocaleData } from '@angular/common';
+import { AppConfigService } from './app-init.service';
+import { AppHttpInterceptor } from './common/service/app-interceptor.service';
 
 registerLocaleData(zh, 'zh-CN');
 
@@ -37,10 +39,26 @@ registerLocaleData(zh, 'zh-CN');
   providers: [
     CookieService,
     {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AppHttpInterceptor,
+      multi: true,
+    },
+    {
       provide: LOCALE_ID,
       useValue: 'zh-CN',
+    },
+    AppConfigService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeApp,
+      deps: [AppConfigService],
+      multi: true,
     },
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+
+export function initializeApp(appConfigService: AppConfigService) {
+  return () => appConfigService.init();
+}
