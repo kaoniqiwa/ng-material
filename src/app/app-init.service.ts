@@ -12,6 +12,7 @@ export class AppConfigService {
   init() {
     const jsonFile = `assets/json/config.json`;
 
+    // only when the observable completed,the application bootstrap process continues
     return this._http.get(jsonFile).pipe(
       tap((response) => {
         AppConfigService.settings = <IAppConfig>response;

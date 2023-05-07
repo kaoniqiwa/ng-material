@@ -16,6 +16,7 @@ import {
   EMPTY,
   throwError,
   endWith,
+  startWith,
 } from 'rxjs';
 import { AuthHeaderService } from './auth-header.service';
 import { SessionStorageService } from './session-storage.service';
@@ -71,34 +72,37 @@ export class AppHttpInterceptor implements HttpInterceptor {
       map((res) => {
         return res;
       }),
-      catchError(
-        (error: HttpEvent<any>, caught: Observable<HttpEvent<any>>) => {
-          this._handleError(error);
-          throw error;
-        }
-      )
+      catchError((error: Error, caught: Observable<any>) => {
+        this._handleError(error);
+
+        throw error;
+      })
     );
   }
 
-  private _handleError(error: HttpEvent<any>) {
-    if (error instanceof HttpErrorResponse) {
-      switch (error.status) {
-        case 500:
-          console.log('操作失败');
-          break;
-        case 503:
-          console.log('操作失败');
-          break;
-        case 400:
-          console.log('操作失败');
-          break;
-        case 403:
-          console.log('授权失败');
-          break;
-        case 504:
-          console.log('操作失败');
-          break;
-        default:
+  private _handleError(error: Error) {
+    if (error instanceof ErrorEvent) {
+      console.log(error.message);
+    } else {
+      if (error instanceof HttpErrorResponse) {
+        switch (error.status) {
+          case 500:
+            console.log('操作失败');
+            break;
+          case 503:
+            console.log('操作失败');
+            break;
+          case 400:
+            console.log('操作失败');
+            break;
+          case 403:
+            console.log('授权失败');
+            break;
+          case 504:
+            console.log('操作失败');
+            break;
+          default:
+        }
       }
     }
   }

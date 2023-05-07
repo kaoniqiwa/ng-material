@@ -2,16 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import axios from 'axios';
 import { AuthorizationRequestService } from 'src/app/common/service/authorization-request.service';
+import { StationProfileBusiness } from './station-profile.business';
 @Component({
-  selector: 'station-profile-manager',
-  templateUrl: './station-profile-manager.component.html',
-  styleUrls: ['./station-profile-manager.component.less'],
+  selector: 'station-profile',
+  templateUrl: './station-profile.component.html',
+  styleUrls: ['./station-profile.component.less'],
+  providers: [StationProfileBusiness],
 })
-export class StationProfileManagerComponent implements OnInit {
-  constructor(
-    private s: AuthorizationRequestService,
-    private http: HttpClient
-  ) {}
+export class StationProfileComponent implements OnInit {
+  constructor(private _business: StationProfileBusiness) {}
 
   ngOnInit(): void {
     // axios
@@ -29,15 +28,15 @@ export class StationProfileManagerComponent implements OnInit {
     //     }
     //   )
     //   .then((res) => console.log(res));
-    this.http
-      .post(
-        '/api/howell/ver10/garbage_profiles/GarbageStationProfiles/Labels/List',
-        {
-          PageIndex: 1,
-          PageSize: 1,
-        }
-      )
-      .subscribe(console.log);
+    // this.http
+    //   .post(
+    //     '/api/howell/ver10/garbage_profiles/GarbageStationProfiles/Labels/List',
+    //     {
+    //       PageIndex: 1,
+    //       PageSize: 1,
+    //     }
+    //   )
+    //   .subscribe(console.log);
   }
 }
 

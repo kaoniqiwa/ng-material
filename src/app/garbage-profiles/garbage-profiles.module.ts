@@ -4,7 +4,7 @@ import { HowellModule } from '../common/howell.module';
 import { MonitorPlatformComponent } from './components/monitor-platform/monitor-platform.component';
 import { StationArchiveComponent } from './components/station-archive/station-archive.component';
 import { UnderwaterComponent } from './components/underwater/underwater.component';
-import { StationProfileManagerComponent } from './components/station-profile-manager/station-profile-manager.component';
+import { StationProfileComponent } from './components/station-profile/station-profile.component';
 import { MaintenanceProfileComponent } from './components/maintenance-profile/maintenance-profile.component';
 import { MaterialProfileComponent } from './components/material-profile/material-profile.component';
 
@@ -13,7 +13,7 @@ import { MaterialProfileComponent } from './components/material-profile/material
     UnderwaterComponent,
     MonitorPlatformComponent,
     StationArchiveComponent,
-    StationProfileManagerComponent,
+    StationProfileComponent,
     MaintenanceProfileComponent,
     MaterialProfileComponent,
   ],
