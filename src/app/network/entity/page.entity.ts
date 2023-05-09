@@ -17,5 +17,6 @@ export class PagedList<T> {
   /**	Page	分页信息	M	*/
   Page!: Page;
   /**	T[]	数据内容，T为任何需要的类型	M	*/
+
   Data!: T[];
 }

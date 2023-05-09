@@ -4,6 +4,7 @@ import { Router, RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { AuthorizationRequestService } from './common/service/authorization-request.service';
 import { RouterPath } from './enum/router.enum';
+import { CustomPreloadingStrategy } from './custom-preloading-strategy';
 
 const routes: Routes = [
   {

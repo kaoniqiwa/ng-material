@@ -93,13 +93,13 @@ class StationProfilesStatisticsRequestService {
 }
 
 class StationProfilesPropertiesRequestService {
-  _typeRequest: BaseTypeRequestService<ProfileStateStatisticResult>;
+  _typeRequest: BaseTypeRequestService<Property>;
   constructor(private _baseRequest: BaseRequestService) {
-    this._typeRequest = this._baseRequest.type(ProfileStateStatisticResult);
+    this._typeRequest = this._baseRequest.type(Property);
   }
 
   list(params: GetPropertiesParams = new GetPropertiesParams()) {
     let url = StationProfilesUrl.property.list();
-    return this._typeRequest.post(url, params);
+    return this._typeRequest.paged(url, params);
   }
 }
