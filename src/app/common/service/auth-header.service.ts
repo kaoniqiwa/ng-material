@@ -4,7 +4,7 @@ import { decode, encode } from 'js-base64';
 import { CookieOptions, CookieService } from 'ngx-cookie-service';
 import qs from 'qs';
 
-import { DigestResponse } from 'src/app/network/entity/digest-response.entity';
+import { DigestResponse } from 'src/app/network/utils/digest-response';
 import { Md5 } from 'ts-md5';
 import { SessionStorageService } from './session-storage.service';
 

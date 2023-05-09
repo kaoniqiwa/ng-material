@@ -1,18 +1,21 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import axios from 'axios';
-import { AuthorizationRequestService } from 'src/app/common/service/authorization-request.service';
 import { StationProfileBusiness } from './station-profile.business';
+import { StationProfileConverter } from './station-profile.converter';
+import { LanguageService } from 'src/app/network/utils/language-service';
 @Component({
   selector: 'station-profile',
   templateUrl: './station-profile.component.html',
   styleUrls: ['./station-profile.component.less'],
-  providers: [StationProfileBusiness],
+  providers: [StationProfileBusiness, StationProfileConverter],
 })
 export class StationProfileComponent implements OnInit {
-  constructor(private _business: StationProfileBusiness) {}
+  constructor(
+    private _business: StationProfileBusiness,
+    private _languageService: LanguageService
+  ) {}
 
   ngOnInit(): void {
+    this._business.getLabel();
     // axios
     //   .post(
     //     '/api/howell/ver10/garbage_profiles/GarbageStationProfiles/Labels/List',

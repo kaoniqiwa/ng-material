@@ -16,7 +16,7 @@ import { Observable, catchError, lastValueFrom, of, map } from 'rxjs';
 import { AjaxConfig, AjaxError, ajax } from 'rxjs/ajax';
 
 import { UserUrl } from '../../network/url/user.url';
-import { DigestResponse } from '../../network/entity/digest-response.entity';
+import { DigestResponse } from '../../network/utils/digest-response';
 import { User } from '../../network/entity/user.entity';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { SessionStorageService } from 'src/app/common/service/session-storage.service';

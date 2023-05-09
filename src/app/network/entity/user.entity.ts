@@ -1,5 +1,8 @@
 import { Transform, TransformFnParams, Type } from 'class-transformer';
-import { transformDate } from 'src/app/common/utils/transform.util';
+import {
+  DateTimeFormat,
+  transformDateTime,
+} from 'src/app/common/utils/transform.util';
 import { Gender } from 'src/app/enum/gender.enum';
 import { UserState } from 'src/app/enum/user-state.enum';
 import { UserType } from 'src/app/enum/user-type.enum';
@@ -28,13 +31,13 @@ export class User {
   /**	String	描述信息	O	RW */
   Note?: string;
   /**	DateTime	过期时间	M	RW */
-  @Transform((params: TransformFnParams) => transformDate(params, 'yyyy-MM-ddTHH:mm:ssZZZZZ'))
+  @Transform(transformDateTime(DateTimeFormat))
   ExpiredTime!: Date;
   /**	DateTime	创建时间	M	R */
-  @Transform((params: TransformFnParams) => transformDate(params, 'yyyy-MM-ddTHH:mm:ssZZZZZ'))
+  @Transform(transformDateTime(DateTimeFormat))
   CreateTime!: Date;
   /**	DateTime	更新时间	M	R */
-  @Transform((params: TransformFnParams) => transformDate(params, 'yyyy-MM-ddTHH:mm:ssZZZZZ'))
+  @Transform(transformDateTime(DateTimeFormat))
   UpdateTime!: Date;
   /**	Int32	0-正常	M	R */
   State!: UserState;

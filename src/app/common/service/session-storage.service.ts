@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { DigestResponse } from 'src/app/network/entity/digest-response.entity';
+import { DigestResponse } from 'src/app/network/utils/digest-response';
 
 @Injectable({
   providedIn: 'root',

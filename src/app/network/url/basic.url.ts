@@ -11,4 +11,11 @@ export class BasicUrl {
   static get user() {
     return `${this.data}/user_system`;
   }
+  /** /api/howell/ver10 */
+  static get api() {
+    return `/api${this.basic}`;
+  }
+  static get garbage_profiles() {
+    return `${this.api}/garbage_profiles`;
+  }
 }
