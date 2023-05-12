@@ -11,7 +11,7 @@ export class StationProfileBusiness {
     // res.Items
   }
   async profileStateStatistic() {
-    let res = await this._stationProfileService.statistic.profileState();
-    console.log(res);
+    // let res = await this._stationProfileService.statistic.profileState();
+    // console.log(res);
   }
 }

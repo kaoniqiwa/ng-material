@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { StationProfileBusiness } from './station-profile.business';
 import { StationProfileConverter } from './station-profile.converter';
-import { LanguageService } from 'src/app/common/service/language-service';
+import {
+  ActivatedRoute,
+  Router,
+  RouterState,
+  RouterStateSnapshot,
+} from '@angular/router';
 @Component({
   selector: 'station-profile',
   templateUrl: './station-profile.component.html',
@@ -9,14 +14,9 @@ import { LanguageService } from 'src/app/common/service/language-service';
   providers: [StationProfileBusiness, StationProfileConverter],
 })
 export class StationProfileComponent implements OnInit {
-  constructor(
-    private _business: StationProfileBusiness,
-    private _languageService: LanguageService
-  ) {}
+  constructor(private _business: StationProfileBusiness) {}
 
   ngOnInit(): void {
-    console.log(this._languageService.stationProfileProperties);
-
     this._business.getLabel();
     // axios
     //   .post(

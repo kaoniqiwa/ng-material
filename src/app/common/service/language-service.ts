@@ -2,6 +2,9 @@ import { Injectable, forwardRef } from '@angular/core';
 import { StationProfileService } from '../../network/request/station-profile/station-profile.service';
 import { Property } from 'src/app/network/entity/property.entity';
 
+@Injectable({
+  providedIn: 'root',
+})
 export class LanguageService {
   stationProfileProperties: { [key: string]: string } = {};
 

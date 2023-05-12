@@ -5,6 +5,7 @@ import { LoginComponent } from './login/login.component';
 import { AuthorizationRequestService } from './common/service/authorization-request.service';
 import { RouterPath } from './enum/router.enum';
 import { CustomPreloadingStrategy } from './custom-preloading-strategy';
+import { LanguageResolverService } from './common/service/language-resolver.service';
 
 const routes: Routes = [
   {
@@ -23,6 +24,9 @@ const routes: Routes = [
         (mod) => mod.GarbageProfilesModule
       ),
     canActivate: [AuthorizationRequestService],
+    resolve: {
+      test: LanguageResolverService, // 预先拉数据
+    },
   },
   {
     path: '*',

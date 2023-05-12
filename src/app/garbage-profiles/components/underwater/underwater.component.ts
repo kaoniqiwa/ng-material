@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { LanguageService } from 'src/app/common/service/language-service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-underwater',
@@ -7,7 +7,5 @@ import { LanguageService } from 'src/app/common/service/language-service';
   styleUrls: ['./underwater.component.less'],
 })
 export class UnderwaterComponent implements OnInit {
-  constructor(private _languageService: LanguageService) {}
-
   ngOnInit(): void {}
 }
