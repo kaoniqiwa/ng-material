@@ -25,7 +25,7 @@ const routes: Routes = [
       ),
     canActivate: [AuthorizationRequestService],
     // resolve: {
-    //   test: LanguageResolverService, // 预先拉数据
+    //   test: LanguageResolverService, // 预先拉数据,但是会在 garbage-profiles和underwater上都出现
     // },
   },
   {
