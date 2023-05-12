@@ -37,11 +37,11 @@ const routes: Routes = [
             path: 'station-archive',
             component: StationArchiveComponent,
             children: [
-              {
-                path: '',
-                redirectTo: 'station-profile',
-                pathMatch: 'full',
-              },
+              // {
+              //   path: '',
+              //   redirectTo: 'station-profile',
+              //   pathMatch: 'full',
+              // },
               {
                 path: 'station-profile',
                 component: StationProfileComponent,

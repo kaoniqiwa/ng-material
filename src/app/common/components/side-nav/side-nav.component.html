@@ -5,6 +5,7 @@
         class="btn"
         [class]="{ grow: state == 'grow', shrink: state == 'shrink' }"
         [class.selected]="model.id == groups.second"
+        (click)="clickBtn(model)"
       >
         <i [class]="model.icon ?? 'howell-icon-device2'"></i>
         <span *ngIf="state == 'grow'">{{ model.title }}</span>

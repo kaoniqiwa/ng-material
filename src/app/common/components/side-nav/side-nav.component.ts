@@ -50,6 +50,7 @@ export class SideNavComponent implements OnInit {
         let mode = e.urlAfterRedirects.match(ValidPathExp);
         if (mode && mode.groups && mode.groups['first']) {
           Object.assign(this.groups, mode.groups);
+          console.log(this.groups);
           import(`src/assets/json/${mode.groups['first']}.json`).then(
             (config) => {
               this.models = config.data;
@@ -68,5 +69,17 @@ export class SideNavComponent implements OnInit {
     } else {
       this.state = 'grow';
     }
+  }
+  clickBtn(model: ISideNavConfig) {
+    // console.log(model);
+    if (!model.CanNavigate) {
+      let mode = model.path.match(ValidPathExp);
+      if (mode?.groups?.['second'] == this.groups.second) {
+        console.log('同一父标签');
+        return;
+      }
+    }
+
+    this._router.navigateByUrl(model.path);
   }
 }

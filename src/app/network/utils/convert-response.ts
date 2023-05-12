@@ -6,6 +6,9 @@ import { PagedList } from '../entity/page.entity';
   providedIn: 'root',
 })
 export class ConvertResponseService {
+  convert<T>(response: T, typed: Type<any>): T;
+  convert<T>(response: T[], typed: Type<any>): T[];
+  convert<T>(response: PagedList<T>, typed: Type<any>): PagedList<T>;
   convert<T>(response: T | T[] | PagedList<T>, typed: Type<any>) {
     if ((response as PagedList<T>).Page) {
       response = plainToInstance(PagedList<T>, response);

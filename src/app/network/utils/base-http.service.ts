@@ -45,7 +45,7 @@ export class BaseRequestService {
     let response = await lastValueFrom(
       this._howellHttpRequest.post<PagedList<T>>(url, body, query)
     );
-    return this._convertResponse.convert(response, type) as PagedList<T>;
+    return this._convertResponse.convert(response, type);
   }
 
   type<T>(type: Type<any>) {
@@ -59,9 +59,10 @@ export class BaseTypeRequestService<T> {
     return this._base.get<T>(url, this._type, params);
   }
   post(url: string, body: any | null = null, params: HttpTypedParams = {}) {
-    return this._base.post(url, this._type, body, params);
+    return this._base.post<T>(url, this._type, body, params);
   }
   paged(url: string, body: any | null = null, params: HttpTypedParams = {}) {
     return this._base.paged<T>(url, this._type, body, params);
   }
+  // put()
 }

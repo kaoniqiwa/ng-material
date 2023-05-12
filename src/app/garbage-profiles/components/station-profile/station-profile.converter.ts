@@ -2,13 +2,21 @@ import { ProfileStateStatisticResult } from 'src/app/network/entity/profile-stat
 import { StationProfileModel } from './station-profile.model';
 
 export class StationProfileConverter {
-  convert() {}
+  convert(source: ProfileStateStatisticResult) {
+    return this._covertFromProfileStateStatisticResult(source);
+  }
 
-  private _covertFromStationProfileConverter(
+  private _covertFromProfileStateStatisticResult(
     source: ProfileStateStatisticResult
   ) {
     let model = new StationProfileModel();
-    // model.profileCount;
-    // source.Items
+    model.profiles = source.Items;
+    model.profileCount = source.Items.reduce(
+      (prev, cur) => prev + cur.Number,
+      0
+    );
+    model.labelCount = 0;
+
+    return model;
   }
 }

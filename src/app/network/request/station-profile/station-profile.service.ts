@@ -8,6 +8,7 @@ import {
 import { Label } from '../../entity/label.entity';
 import { StationProfile } from '../../entity/station-profile.entity';
 import {
+  GetLabelsParams,
   GetProfileStateStatisticsParams,
   GetPropertiesParams,
 } from './station-profile.params';
@@ -60,19 +61,25 @@ export class StationProfileService {
 }
 
 class StationProfilesLabelsService {
-  type: BaseTypeRequestService<Label>;
+  _typeRequest: BaseTypeRequestService<Label>;
 
   constructor(private _baseRequest: BaseRequestService) {
-    this.type = this._baseRequest.type(Label);
+    this._typeRequest = this._baseRequest.type(Label);
   }
-  item(id: string) {
+  create(label: Label) {
+    let url = StationProfilesUrl.labels.basic();
+
+    return this._typeRequest.post(url, label);
+  }
+  get(id: string) {
     let url = StationProfilesUrl.labels.item(id);
 
-    return this._baseRequest.get(url);
+    return this._typeRequest.get(url);
   }
-  list() {
+
+  list(params: GetLabelsParams = new GetLabelsParams()) {
     let url = StationProfilesUrl.labels.list();
-    // this.http.get();
+    return this._typeRequest.paged(url, params);
   }
 }
 

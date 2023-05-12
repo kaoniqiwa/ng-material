@@ -6,16 +6,16 @@
       "id": "station-archive",
       "icon": "howell-icon-garbagebags",
       "path": "/garbage-profiles/underwater/monitor-platform/station-archive",
-      "CanNavigate": false,
+      "CanNavigate": true,
       "children": [
         {
           "title": "厢房档案",
-          "id": "station-profile-index",
+          "id": "station-profile",
           "path": "/garbage-profiles/underwater/monitor-platform/station-archive/station-profile"
         },
         {
           "title": "物料档案",
-          "id": "material-manager",
+          "id": "material-profile",
           "path": "/garbage-profiles/underwater/monitor-platform/station-archive/material-profile"
         },
         {
@@ -26,7 +26,7 @@
         },
         {
           "title": "维修工单档案",
-          "id": "maintenance-profile-index",
+          "id": "maintenance-profile",
           "path": "/garbage-profiles/underwater/monitor-platform/station-archive/maintenance-profile"
         }
       ]

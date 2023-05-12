@@ -7,6 +7,8 @@ import { UnderwaterComponent } from './components/underwater/underwater.componen
 import { StationProfileComponent } from './components/station-profile/station-profile.component';
 import { MaintenanceProfileComponent } from './components/maintenance-profile/maintenance-profile.component';
 import { MaterialProfileComponent } from './components/material-profile/material-profile.component';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,7 @@ import { MaterialProfileComponent } from './components/material-profile/material
     MaintenanceProfileComponent,
     MaterialProfileComponent,
   ],
-  imports: [HowellModule, GarbageProfilesRoutingModule],
+  imports: [HowellModule, CommonModule, GarbageProfilesRoutingModule],
   providers: [],
 })
 export class GarbageProfilesModule {}

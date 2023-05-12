@@ -1,1 +1,29 @@
-<p>station-profile-manage works!</p>
+<div class="station-profile">
+  <div class="profile-count">
+    <div class="card" *ngFor="let profile of model.profiles">
+      <div class="title">
+        {{
+          language.stationProfileProperties[
+            "ProfileState_" + profile.ProfileState
+          ]
+        }}
+      </div>
+      <div
+        class="count"
+        [style.color]="profile.ProfileState | profileStateColor"
+      >
+        {{ profile.Number }}
+      </div>
+    </div>
+  </div>
+  <div class="total-count card">
+    <div class="title">全部档案</div>
+    <div class="count">{{ model.profileCount }}</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="label-count card">
+    <div class="title">标签</div>
+    <div class="count">{{ model.labelCount }}</div>
+  </div>
+</div>
