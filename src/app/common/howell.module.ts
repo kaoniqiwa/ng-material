@@ -7,6 +7,7 @@ import { CommonTimeComponent } from './components/common-time/common-time.compon
 import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { RouterModule } from '@angular/router';
 import { ProfileStateColorPipe } from './pipe/profile-state-color.pipe';
+import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { ProfileStateColorPipe } from './pipe/profile-state-color.pipe';
     AccountOperationComponent,
     AccountInfoComponent,
     SideNavComponent,
+    BreadcrumbComponent,
 
     ProfileStateColorPipe,
   ],
@@ -22,6 +24,7 @@ import { ProfileStateColorPipe } from './pipe/profile-state-color.pipe';
     AccountOperationComponent,
     AccountInfoComponent,
     SideNavComponent,
+    BreadcrumbComponent,
 
     ProfileStateColorPipe,
   ],

@@ -23,6 +23,6 @@ export class LanguageService {
         this.stationProfileProperties[property.Name] = property.Description;
       }
     });
-    console.log(this.stationProfileProperties);
+    // console.log(this.stationProfileProperties);
   }
 }

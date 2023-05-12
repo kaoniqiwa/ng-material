@@ -50,7 +50,6 @@ export class SideNavComponent implements OnInit {
         let mode = e.urlAfterRedirects.match(ValidPathExp);
         if (mode && mode.groups && mode.groups['first']) {
           Object.assign(this.groups, mode.groups);
-          console.log(this.groups);
           import(`src/assets/json/${mode.groups['first']}.json`).then(
             (config) => {
               this.models = config.data;

@@ -24,9 +24,9 @@ const routes: Routes = [
         (mod) => mod.GarbageProfilesModule
       ),
     canActivate: [AuthorizationRequestService],
-    resolve: {
-      test: LanguageResolverService, // 预先拉数据
-    },
+    // resolve: {
+    //   test: LanguageResolverService, // 预先拉数据
+    // },
   },
   {
     path: '*',
