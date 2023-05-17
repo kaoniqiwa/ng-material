@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StationProfilesUrl } from '../../url/garbage-station-profiles/station-profile/station-profile.url';
+import { StationProfilesUrl } from '../../url/garbage-station-profiles/station-profile.url';
 import { HttpClient } from '@angular/common/http';
 import {
   BaseRequestService,
@@ -9,12 +9,15 @@ import { Label } from '../../entity/label.entity';
 import { StationProfile } from '../../entity/station-profile.entity';
 import {
   GetLabelsParams,
+  GetPartialDatasParams,
   GetProfileStateStatisticsParams,
   GetPropertiesParams,
 } from './station-profile.params';
 import { ProfileStateStatisticResult } from '../../entity/profile-state-statistic-result.entity';
 import { PagedList } from '../../entity/page.entity';
 import { Property } from '../../entity/property.entity';
+import { PartialData } from '../../entity/partial-data.entity';
+import { ParallelHasher } from 'ts-md5';
 
 @Injectable({
   providedIn: 'root',
@@ -57,6 +60,15 @@ export class StationProfileService {
       );
     }
     return this._property;
+  }
+  private _partialData?: StationProfilesPartialDataRequestService;
+  get partialData(): StationProfilesPartialDataRequestService {
+    if (!this._partialData) {
+      this._partialData = new StationProfilesPartialDataRequestService(
+        this._baseRequest
+      );
+    }
+    return this._partialData;
   }
 }
 
@@ -107,6 +119,18 @@ class StationProfilesPropertiesRequestService {
 
   list(params: GetPropertiesParams = new GetPropertiesParams()) {
     let url = StationProfilesUrl.property.list();
+    return this._typeRequest.paged(url, params);
+  }
+}
+
+class StationProfilesPartialDataRequestService {
+  _typeRequest: BaseTypeRequestService<PartialData>;
+  constructor(private _baseRequest: BaseRequestService) {
+    this._typeRequest = this._baseRequest.type(PartialData);
+  }
+  list(params: GetPartialDatasParams = new GetPartialDatasParams()) {
+    let url = StationProfilesUrl.partialData.list();
+
     return this._typeRequest.paged(url, params);
   }
 }

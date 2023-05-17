@@ -1,6 +1,10 @@
-<div class="station-profile">
+<div class="station-profile" *ngIf="show">
   <div class="profile-count">
-    <div class="card" *ngFor="let profile of model.profiles">
+    <div
+      class="card"
+      *ngFor="let profile of model.profiles"
+      routerLink="profile-manager"
+    >
       <div class="title">
         {{
           language.stationProfileProperties[
@@ -27,3 +31,5 @@
     <div class="count">{{ model.labelCount }}</div>
   </div>
 </div>
+
+<router-outlet *ngIf="!show"></router-outlet>

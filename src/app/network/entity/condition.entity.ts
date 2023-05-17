@@ -1,4 +1,4 @@
-import { ConditionOperator } from 'src/app/enum/condition-operator.enum';
+import { ConditionOperator } from 'src/app/network/enum/condition-operator.enum';
 
 /**	查询条件	*/
 export class Condition<T = any> {

@@ -1,4 +1,4 @@
-import { BasicUrl } from '../../basic.url';
+import { BasicUrl } from '../basic.url';
 
 export class StationProfilesUrl {
   /** /api/howell/ver10/aiop_service/garbage_profiles/GarbageStationProfiles */
@@ -36,6 +36,14 @@ export class StationProfilesUrl {
       this._property = new StationProfilesPropertiesUrl(this.basic);
     }
     return this._property;
+  }
+
+  private static _partialData: StationProfilesPartialDatasUrl;
+  static get partialData() {
+    if (!this._partialData) {
+      this._partialData = new StationProfilesPartialDatasUrl(this.basic);
+    }
+    return this._partialData;
   }
 }
 
@@ -82,6 +90,20 @@ class StationProfilesPropertiesUrl {
   }
   item<T = string>(id: T) {
     return `${this.basic()}/${id}`;
+  }
+  list() {
+    return `${this.basic()}/List`;
+  }
+}
+
+class StationProfilesPartialDatasUrl {
+  private _base = '';
+
+  constructor(base: string) {
+    this._base = base + '/PartialDatas';
+  }
+  basic() {
+    return this._base;
   }
   list() {
     return `${this.basic()}/List`;

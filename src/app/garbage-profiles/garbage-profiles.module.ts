@@ -9,6 +9,8 @@ import { MaintenanceProfileComponent } from './components/maintenance-profile/ma
 import { MaterialProfileComponent } from './components/material-profile/material-profile.component';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { ProfileManagerComponent } from './components/profile-manager/profile-manager.component';
+import { LanguageService } from './service/language-service';
 
 @NgModule({
   declarations: [
@@ -18,8 +20,11 @@ import { RouterModule } from '@angular/router';
     StationProfileComponent,
     MaintenanceProfileComponent,
     MaterialProfileComponent,
+    ProfileManagerComponent,
   ],
   imports: [HowellModule, CommonModule, GarbageProfilesRoutingModule],
-  providers: [],
+  providers: [
+    LanguageService
+  ],
 })
 export class GarbageProfilesModule {}

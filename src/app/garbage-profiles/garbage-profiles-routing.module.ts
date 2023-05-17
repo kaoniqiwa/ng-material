@@ -7,7 +7,8 @@ import { StationArchiveComponent } from './components/station-archive/station-ar
 import { StationProfileComponent } from './components/station-profile/station-profile.component';
 import { MaterialProfileComponent } from './components/material-profile/material-profile.component';
 import { MaintenanceProfileComponent } from './components/maintenance-profile/maintenance-profile.component';
-import { LanguageService } from '../common/service/language-service';
+import { LanguageService } from './service/language-service';
+import { ProfileManagerComponent } from './components/profile-manager/profile-manager.component';
 
 const routes: Routes = [
   {
@@ -53,6 +54,15 @@ const routes: Routes = [
                 data: {
                   breadcrumb: '厢房档案',
                 },
+                children: [
+                  {
+                    path: 'profile-manager',
+                    component: ProfileManagerComponent,
+                    data: {
+                      breadcrumb: '档案管理',
+                    },
+                  },
+                ],
               },
               {
                 path: 'material-profile',
@@ -81,5 +91,6 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class GarbageProfilesRoutingModule {
+  // 事先拉取 Property 数据
   constructor(private _languageService: LanguageService) {}
 }

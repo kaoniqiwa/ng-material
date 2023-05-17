@@ -1,6 +1,6 @@
 /**	摄像机	*/
 
-import { IModel } from '../network/utils/model';
+import { IModel } from '../utils/model';
 
 export class Camera implements IModel {
   /**	String	摄像机名称	M	*/

@@ -5,12 +5,12 @@ import {
   transition,
   animate,
 } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ValidPathExp } from '../../utils/tool.util';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
-import { ISideNavConfig } from '../../models/sidenav-config';
+import { ISideNavConfig } from '../../interface/sidenav-config.interface';
 
 @Component({
   selector: 'side-nav',
@@ -34,7 +34,7 @@ import { ISideNavConfig } from '../../models/sidenav-config';
     ]),
   ],
 })
-export class SideNavComponent implements OnInit {
+export class SideNavComponent implements OnInit,OnDestroy {
   state: 'grow' | 'shrink' = 'grow';
   private _subscription: Subscription;
   groups = {
@@ -81,4 +81,8 @@ export class SideNavComponent implements OnInit {
 
     this._router.navigateByUrl(model.path);
   }
+  ngOnDestroy(): void {
+    this._subscription.unsubscribe()
+  }
+
 }

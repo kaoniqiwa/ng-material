@@ -1,3 +1,5 @@
+import { Condition } from '../../entity/condition.entity';
+import { ElemMatch } from '../../entity/elem-match.entity';
 import { DurationParams, PagedParams } from '../../utils/params';
 
 export class StationProfilesParams extends PagedParams {
@@ -50,4 +52,17 @@ export class GetLabelsParams extends PagedParams {
 export class GetProfileStateStatisticsParams extends DurationParams {
   /**	Int32[]	档案状态	O */
   ProfileStates?: number[];
+}
+
+export class GetPartialDatasParams<T = any> extends PagedParams {
+  /**	String[]	需要的属性ID，与Path二选一	D	*/
+  PropertyIds?: string[];
+  /**	ElemMatch[]	数组元素过滤条件	O	*/
+  ElemMatches?: ElemMatch<T>[];
+  /**	Condition[]	查询条件列表，多条件之间是AND关系。	O	*/
+  Conditions?: Condition<T>[];
+  /**	String	升序路径	O	*/
+  Asc?: string;
+  /**	String	降序路径	O	*/
+  Desc?: string;
 }

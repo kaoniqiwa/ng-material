@@ -4,11 +4,9 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthorizationRequestService } from '../common/service/authorization-request.service';
 import { User } from '../network/entity/user.entity';
 import { LocalStorageService } from '../common/service/local-storage.service';
-import { CookieOptions, CookieService } from 'ngx-cookie-service';
-import { Md5 } from 'ts-md5';
+import {  CookieService } from 'ngx-cookie-service';
 import { Router } from '@angular/router';
-import { RouterPath } from '../enum/router.enum';
-import { encode, decode } from 'js-base64';
+import { RoutePath } from '../app-routing.path';
 
 @Component({
   selector: 'app-login',
@@ -40,7 +38,7 @@ export class LoginComponent implements OnInit {
       try {
         let res = await this._authorizationService.login(username, password);
         if (res instanceof User) {
-          this._router.navigateByUrl(RouterPath.garbage_profiles);
+          this._router.navigateByUrl(RoutePath.garbage_profiles);
         }
       } catch (e) {
         this._toastrService.error('账号或密码错误');

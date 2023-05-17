@@ -1,0 +1,91 @@
+<div class="profile-manager vertical-layout">
+  <div class="profile-manager-header vertical-header">
+    <div class="hw-second-title">{{ title }}</div>
+    <div class="operate-bar" style="flex-basis: 100%; margin-top: 5px">
+      <div class="left-wrapper">
+        <button class="hw-blue-btn">
+          <i class="howell-icon-History"></i> 操作记录
+        </button>
+        <button class="hw-blue-btn">
+          <i class="howell-icon-export"></i>导出
+        </button>
+        <button class="hw-blue-btn">
+          <i class="howell-icon-settingoutline"></i> 设置
+        </button>
+        <button class="hw-green-btn">
+          <i class="howell-icon-plus"></i>添加
+        </button>
+      </div>
+      <div class="right-wrapper">
+        <div class="item">
+          {{ language.stationProfileProperties["City"] }}
+          <select>
+            <option value="">s</option>
+            <option value="">s</option>
+            <option value="">s</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="profile-manager-main vertical-main">
+    <custom-table>
+      <ng-container ngProjectAs="table-header">
+        <table>
+          <!-- <ng-template [ngTemplateOutlet]="colGroup"></ng-template> -->
+          <thead>
+            <tr>
+              <th *ngFor="let propertyName of searchInfo.IdsOrNames">
+                {{ language.stationProfileProperties[propertyName] }}
+              </th>
+            </tr>
+          </thead>
+        </table></ng-container
+      >
+      <ng-container ngProjectAs="table-body">
+        <table>
+          <!-- <ng-template [ngTemplateOutlet]="colGroup"></ng-template> -->
+
+          <tbody>
+            <ng-template ngFor [ngForOf]="dataSource" let-item>
+              <tr>
+                <!-- <td>a</td>
+                <td>a</td>
+                <td>a</td>
+                <td>a</td> -->
+                <td *ngFor="let propertyName of searchInfo.IdsOrNames">
+                  {{ item[propertyName] }}
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </ng-container>
+    </custom-table>
+  </div>
+  <div
+    class="profile-manager-footer vertical-footer"
+    style="justify-content: flex-end"
+  >
+    <div class="footer-item">
+      <div class="footer-info">
+        <div class="info-item">当前数量: {{ page.RecordCount }}</div>
+        <div class="info-item">总数量: {{ page.TotalRecordCount }}</div>
+      </div>
+      <app-paginator
+        *ngIf="page"
+        [length]="page.TotalRecordCount"
+        [pageSize]="page.PageSize"
+        [pageIndex]="page.PageIndex - 1"
+        (page)="pageEvent($event)"
+      >
+      </app-paginator>
+    </div>
+  </div>
+</div>
+
+<!-- <ng-template #colGroup>
+  <colgroup>
+    <col *ngFor="let item of tdWidth" [style.width]="item" />
+  </colgroup>
+</ng-template> -->

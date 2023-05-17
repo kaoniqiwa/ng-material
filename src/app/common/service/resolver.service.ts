@@ -5,13 +5,12 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { EMPTY, endWith, of } from 'rxjs';
-import { LanguageService } from './language-service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class LanguageResolverService implements Resolve<any> {
-  constructor(private _languageService: LanguageService) {}
+export class ResolverService implements Resolve<any> {
+  constructor() {}
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return EMPTY.pipe(endWith('success'));
   }

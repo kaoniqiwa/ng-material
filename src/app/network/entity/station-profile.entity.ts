@@ -1,6 +1,6 @@
-import { GarbageStationFunction } from 'src/app/enum/garbage-station-function.enum';
-import { StrongCurrentWireMode } from 'src/app/enum/strong-current-wire-mode.enum';
-import { YesOrNo } from 'src/app/enum/yes-or-no.enum';
+import { GarbageStationFunction } from 'src/app/network/enum/garbage-station-function.enum';
+import { StrongCurrentWireMode } from 'src/app/network/enum/strong-current-wire-mode.enum';
+import { YesOrNo } from 'src/app/network/enum/yes-or-no.enum';
 import { MaterialItem } from './material-item.enitty';
 import { Transform, Type } from 'class-transformer';
 import {
@@ -8,7 +8,7 @@ import {
   transformDateTime,
 } from 'src/app/common/utils/transform.util';
 import { GPSPoint } from './gps-point.entity';
-import { Camera } from 'src/app/enum/camera.entity';
+import { Camera } from 'src/app/network/enum/camera.entity';
 
 /**	垃圾厢房档案	*/
 export class StationProfile {

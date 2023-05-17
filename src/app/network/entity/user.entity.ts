@@ -3,9 +3,9 @@ import {
   DateTimeFormat,
   transformDateTime,
 } from 'src/app/common/utils/transform.util';
-import { Gender } from 'src/app/enum/gender.enum';
-import { UserState } from 'src/app/enum/user-state.enum';
-import { UserType } from 'src/app/enum/user-type.enum';
+import { Gender } from 'src/app/network/enum/gender.enum';
+import { UserState } from 'src/app/network/enum/user-state.enum';
+import { UserType } from 'src/app/network/enum/user-type.enum';
 
 export class User {
   /**	String	唯一标识符	M	R */

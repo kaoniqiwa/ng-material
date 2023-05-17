@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from '../material.module';
@@ -8,14 +9,19 @@ import { SideNavComponent } from './components/side-nav/side-nav.component';
 import { RouterModule } from '@angular/router';
 import { ProfileStateColorPipe } from './pipe/profile-state-color.pipe';
 import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.component';
+import { CustomTableComponent } from './components/custom-table/custom-table.component';
+import { FormsModule } from '@angular/forms';
+import { PaginatorComponent } from './components/paginator/paginator.component';
 
 @NgModule({
-  declarations: [
+      declarations: [
     CommonTimeComponent,
     AccountOperationComponent,
     AccountInfoComponent,
     SideNavComponent,
     BreadcrumbComponent,
+    CustomTableComponent,
+    PaginatorComponent,
 
     ProfileStateColorPipe,
   ],
@@ -25,9 +31,11 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
     AccountInfoComponent,
     SideNavComponent,
     BreadcrumbComponent,
+    CustomTableComponent,
+    PaginatorComponent,
 
     ProfileStateColorPipe,
   ],
-  imports: [CommonModule, MaterialModule, RouterModule],
+  imports: [CommonModule, FormsModule, MaterialModule, RouterModule],
 })
 export class HowellModule {}

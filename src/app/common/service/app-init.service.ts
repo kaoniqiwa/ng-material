@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { IAppConfig } from './app-config.interface';
+import { IAppConfig } from '../interface/app-config.interface';
 import { tap } from 'rxjs';
 
 @Injectable()

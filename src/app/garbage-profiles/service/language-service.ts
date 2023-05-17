@@ -1,10 +1,7 @@
-import { Injectable, forwardRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { StationProfileService } from '../../network/request/station-profile/station-profile.service';
-import { Property } from 'src/app/network/entity/property.entity';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class LanguageService {
   stationProfileProperties: { [key: string]: string } = {};
 
@@ -14,13 +11,13 @@ export class LanguageService {
   private async _listStationProfileProperties() {
     let res = await this._stationProfileService.property.list();
     res.Data.forEach((property) => {
+      this.stationProfileProperties[property.Name] = property.Description;
+
       if (property.EnumeratedValues && property.EnumeratedValues.length) {
         property.EnumeratedValues.forEach((val) => {
           this.stationProfileProperties[property.Name + '_' + val.Value] =
             val.Name;
         });
-      } else {
-        this.stationProfileProperties[property.Name] = property.Description;
       }
     });
     // console.log(this.stationProfileProperties);

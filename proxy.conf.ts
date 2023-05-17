@@ -1,7 +1,7 @@
 const PROXY_CONFIG = [
   {
     context: [
-      '/howell/ver10/data_service/',
+      '/howell/ver10/data_service/user_system',
       '/api/howell/ver10/aiop_service/',
       '/api/howell/ver10/garbage_profiles/',
       '/video/wsplayer/',

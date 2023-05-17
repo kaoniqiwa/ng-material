@@ -1,4 +1,4 @@
-import { PropertyCategory } from 'src/app/enum/property-category.enum';
+import { PropertyCategory } from 'src/app/network/enum/property-category.enum';
 import { IModel } from '../utils/model';
 import { ValueNamePair } from './value-name-pair.entity';
 

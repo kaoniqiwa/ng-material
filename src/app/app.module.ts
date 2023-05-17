@@ -13,7 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import zh from '@angular/common/locales/zh';
 import { registerLocaleData } from '@angular/common';
-import { AppConfigService } from './app-init.service';
+import { AppConfigService } from './common/service/app-init.service';
 import { AppHttpInterceptor } from './common/service/app-interceptor.service';
 
 registerLocaleData(zh, 'zh-CN');
@@ -59,6 +59,7 @@ registerLocaleData(zh, 'zh-CN');
 })
 export class AppModule {}
 
+// 启动项目前加载项目配置
 export function initializeApp(appConfigService: AppConfigService) {
   return () => appConfigService.init();
 }

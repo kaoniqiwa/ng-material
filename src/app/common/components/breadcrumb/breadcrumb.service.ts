@@ -18,7 +18,7 @@ export class BreadcrumbService {
 
         this._addBreadCrumb(routeSnapshot, [], breadcrumbs);
 
-        console.log(routeSnapshot);
+        // console.log(routeSnapshot);
 
         if (breadcrumbs.length) {
           let last = breadcrumbs.at(breadcrumbs.length - 1)!;
