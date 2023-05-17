@@ -116,6 +116,10 @@ class StationProfilesPropertiesRequestService {
   constructor(private _baseRequest: BaseRequestService) {
     this._typeRequest = this._baseRequest.type(Property);
   }
+  get(id: string) {
+    let url = StationProfilesUrl.property.item(id);
+    return this._typeRequest.get(url);
+  }
 
   list(params: GetPropertiesParams = new GetPropertiesParams()) {
     let url = StationProfilesUrl.property.list();

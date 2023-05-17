@@ -25,7 +25,7 @@ export class ProfileManagerComponent implements OnInit {
 
   searchInfo: ProfileManagerSearchInfo = {
     PageIndex: 1,
-    PageSize: 9,
+    PageSize: 1,
     IdsOrNames: [
       'ProfileName',
       'Province',

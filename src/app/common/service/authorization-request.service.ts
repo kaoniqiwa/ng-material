@@ -22,7 +22,7 @@ import { LocalStorageService } from 'src/app/common/service/local-storage.servic
 import { SessionStorageService } from 'src/app/common/service/session-storage.service';
 import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpLoginService } from 'src/app/network/request/login/login.service';
+import { HttpLoginService } from 'src/app/network/request/login/http-login.service';
 
 @Injectable({
   providedIn: 'root',

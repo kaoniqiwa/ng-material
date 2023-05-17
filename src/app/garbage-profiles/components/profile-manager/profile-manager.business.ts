@@ -41,7 +41,7 @@ export class ProfileManagerBusiness {
     let { Data, Page } = await this._stationProfileService.partialData.list(
       params
     );
-    let data = this._converter.iterateToModel(Data);
+    let data = await this._converter.iterateToModel(Data);
 
     return {
       Data: data,
