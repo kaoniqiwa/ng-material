@@ -31,6 +31,7 @@ export class StationProfilePropertyConverter {
     for (let i = 0; i < keys.length; i++) {
       let key = keys[i];
 
+      // rxjs forkJoin来执行
       if (!this._propertyMap.has(key)) {
         console.log('发送 ');
         let res = await this._stationProfileService.property.get(keys[i]);

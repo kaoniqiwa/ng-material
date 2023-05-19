@@ -9,11 +9,13 @@
     <div class="side-nav">
       <side-nav></side-nav>
     </div>
-    <main class="underwater__wrapper">
-      <div class="wrapper-breadcrumb">
-        <breadcrumb></breadcrumb>
-      </div>
-      <div class="wrapper-content"><router-outlet></router-outlet></div>
-    </main>
+    <div style="width: 100%; overflow: auto">
+      <main class="underwater__wrapper">
+        <div class="wrapper-breadcrumb">
+          <breadcrumb></breadcrumb>
+        </div>
+        <div class="wrapper-content"><router-outlet></router-outlet></div>
+      </main>
+    </div>
   </div>
 </div>

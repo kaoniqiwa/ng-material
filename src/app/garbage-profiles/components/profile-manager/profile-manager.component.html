@@ -29,39 +29,52 @@
     </div>
   </div>
   <div class="profile-manager-main vertical-main">
-    <custom-table>
-      <ng-container ngProjectAs="table-header">
-        <table>
-          <!-- <ng-template [ngTemplateOutlet]="colGroup"></ng-template> -->
-          <thead>
-            <tr>
-              <th *ngFor="let propertyName of searchInfo.IdsOrNames">
-                {{ language.stationProfileProperties[propertyName] }}
-              </th>
-            </tr>
-          </thead>
-        </table></ng-container
-      >
-      <ng-container ngProjectAs="table-body">
-        <table>
-          <!-- <ng-template [ngTemplateOutlet]="colGroup"></ng-template> -->
-
-          <tbody>
-            <ng-template ngFor [ngForOf]="dataSource" let-item>
-              <tr>
-                <!-- <td>a</td>
-                <td>a</td>
-                <td>a</td>
-                <td>a</td> -->
-                <td *ngFor="let propertyName of searchInfo.IdsOrNames">
-                  {{ item[propertyName] }}
-                </td>
-              </tr>
-            </ng-template>
-          </tbody>
-        </table>
-      </ng-container>
-    </custom-table>
+    <div>
+      <table>
+        <!-- <ng-template [ngTemplateOutlet]="colGroup"></ng-template> -->
+        <thead>
+          <tr>
+            <!-- <th *ngFor="let propertyName of searchInfo.IdsOrNames">
+            {{ language.stationProfileProperties[propertyName] }}
+          </th> -->
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+            <th>啊拉断阀</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
   </div>
   <div
     class="profile-manager-footer vertical-footer"

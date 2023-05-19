@@ -23,6 +23,7 @@ import { StationProfilePropertyConverter } from '../../converter/station-profile
 export class ProfileManagerComponent implements OnInit {
   title = '档案管理';
 
+  // 用 proxy 双向绑定
   searchInfo: ProfileManagerSearchInfo = {
     PageIndex: 1,
     PageSize: 1,
@@ -62,11 +63,37 @@ export class ProfileManagerComponent implements OnInit {
     // if (config.length) {
     //   this.searchInfo.IdsOrNames = config;
     // }
-    let { Data, Page } = await this._business.listPartialData(this.searchInfo);
-    this.dataSource = Data;
-    this.page = Page;
+    this.searchInfo.IdsOrNames = [
+      'ProfileName',
+      'Province',
+      'City',
+      'County',
+      'Street',
+      'Committee',
+      'Address',
+      'Contact',
+      'ContactPhoneNo',
+      'Id',
+      'GarbageStationName',
+      'CommunityName',
+      'StrongCurrentWire',
+      'StrongCurrentWireMode',
+      'StrongCurrentWireLength',
+      'LFImageUrl',
+      'RFImageUrl',
+      'FImageUrl',
+      'PowerImageUrl',
+      'CameraNumber',
+      'Functions',
+      'GarbageStationType',
+      'Remarks',
+      'MaterialItems',
+    ];
 
-    console.log(this.dataSource);
+    let { Data, Page } = await this._business.listPartialData(this.searchInfo);
+    this.dataSource = [...Data, ...Data];
+    this.page = Page;
+    // console.log(Data);
   }
 
   pageEvent(pageInfo: PageEvent) {

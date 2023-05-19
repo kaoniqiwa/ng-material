@@ -17,6 +17,7 @@ export class ProfileManagerConverter extends PromiseConverter<ProfileManagerMode
   private async _fromPartialData(source: PartialData) {
     let model = new ProfileManagerModel();
 
+    console.log(source);
     let partialData = await this._stationProfilePropertyConverter.convert(
       source
     );
