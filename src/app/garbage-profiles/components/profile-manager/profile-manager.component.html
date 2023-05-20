@@ -1,6 +1,6 @@
 <div class="profile-manager vertical-layout">
   <div class="profile-manager-header vertical-header">
-    <div class="hw-second-title">{{ title }}</div>
+    <div class="hw-second-title" (click)="getFruits()">{{ title }}</div>
     <div class="operate-bar" style="flex-basis: 100%; margin-top: 5px">
       <div class="left-wrapper">
         <button class="hw-blue-btn">
@@ -18,7 +18,7 @@
       </div>
       <div class="right-wrapper">
         <div class="item">
-          {{ language.stationProfileProperties["City"] }}
+          <!-- {{ language.stationProfileProperties["City"] }} -->
           <select>
             <option value="">s</option>
             <option value="">s</option>

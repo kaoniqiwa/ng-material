@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StationProfileService } from '../../network/request/station-profile/station-profile.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable()
 export class LanguageService {
@@ -12,7 +13,6 @@ export class LanguageService {
     let res = await this._stationProfileService.property.list();
     res.Data.forEach((property) => {
       this.stationProfileProperties[property.Name] = property.Description;
-
       if (property.EnumeratedValues && property.EnumeratedValues.length) {
         property.EnumeratedValues.forEach((val) => {
           this.stationProfileProperties[property.Name + '_' + val.Value] =
@@ -20,6 +20,5 @@ export class LanguageService {
         });
       }
     });
-    // console.log(this.stationProfileProperties);
   }
 }

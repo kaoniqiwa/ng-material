@@ -22,7 +22,6 @@ const routes: Routes = [
       import('./garbage-profiles/garbage-profiles.module').then(
         (mod) => mod.GarbageProfilesModule
       ),
-    canActivate: [AuthorizationRequestService],
     resolve: {
       test: ResolverService, // 预先拉数据,但是会在 garbage-profiles和underwater上都出现
     },

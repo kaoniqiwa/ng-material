@@ -20,14 +20,13 @@ import { DigestResponse } from '../../network/utils/digest-response';
 import { User } from '../../network/entity/user.entity';
 import { LocalStorageService } from 'src/app/common/service/local-storage.service';
 import { SessionStorageService } from 'src/app/common/service/session-storage.service';
-import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { HttpLoginService } from 'src/app/network/request/login/http-login.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthorizationRequestService implements CanActivate {
+export class AuthorizationRequestService {
   // 计数器
   private _nc = 0;
 
@@ -62,16 +61,6 @@ export class AuthorizationRequestService implements CanActivate {
     }
   }
 
-  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    let challenge = this._sessionStorage.challenge;
-    let user = this._localStorage.user;
-    let holdCookie = this._cookieService.check('username');
-    if (challenge && user && user.Id && holdCookie) {
-      return true;
-    }
-
-    return this._router.navigateByUrl('/login');
-  }
   async login(username: string, password: string) {
     this._username = username;
     this._password = password;

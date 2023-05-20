@@ -10,5 +10,13 @@ const PROXY_CONFIG = [
     changeOrigin: true,
     secure: false,
   },
+  {
+    context: ['/api'],
+    target: 'http://localhost:8888/FrontEnd/Angular/Angular-io/Http/server/',
+    changeOrigin: true,
+    pathRewrite: {
+      '^/api': '',
+    },
+  },
 ];
 module.exports = PROXY_CONFIG;

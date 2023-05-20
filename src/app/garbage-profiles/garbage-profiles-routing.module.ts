@@ -9,6 +9,9 @@ import { MaterialProfileComponent } from './components/material-profile/material
 import { MaintenanceProfileComponent } from './components/maintenance-profile/maintenance-profile.component';
 import { LanguageService } from './service/language-service';
 import { ProfileManagerComponent } from './components/profile-manager/profile-manager.component';
+import { CookieGuard } from '../common/service/cookie.guard';
+import { AuthGuard } from '../common/service/auth.guard';
+import { DeactivateGuard } from '../common/service/deactivate.guard';
 
 const routes: Routes = [
   {
@@ -20,6 +23,9 @@ const routes: Routes = [
   {
     path: 'underwater',
     component: UnderwaterComponent,
+    canActivate: [AuthGuard, CookieGuard],
+    canActivateChild: [AuthGuard, CookieGuard],
+    canDeactivate: [DeactivateGuard],
 
     children: [
       {
@@ -58,6 +64,7 @@ const routes: Routes = [
                   {
                     path: 'profile-manager',
                     component: ProfileManagerComponent,
+
                     data: {
                       breadcrumb: '档案管理',
                     },

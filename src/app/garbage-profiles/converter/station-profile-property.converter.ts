@@ -5,6 +5,7 @@ import {
   instanceToPlain,
   plainToInstance,
 } from 'class-transformer';
+import { forkJoin } from 'rxjs';
 import { ExtendedProperty } from 'src/app/network/entity/extended-property.entity';
 import { PartialData } from 'src/app/network/entity/partial-data.entity';
 import { Property } from 'src/app/network/entity/property.entity';
@@ -27,20 +28,10 @@ export class StationProfilePropertyConverter {
   private async _fromPartialData(item: PartialData) {
     let partialData = Object.assign({}, item);
     let keys = Object.keys(partialData);
+    await this._listProperty(item);
 
     for (let i = 0; i < keys.length; i++) {
       let key = keys[i];
-
-      // rxjs forkJoin来执行
-      if (!this._propertyMap.has(key)) {
-        console.log('发送 ');
-        let res = await this._stationProfileService.property.get(keys[i]);
-        let property = plainToInstance<ExtendedProperty, any>(
-          ExtendedProperty,
-          instanceToPlain(res)
-        );
-        this._propertyMap.set(property.Name, property);
-      }
       let property = this._propertyMap.get(key)!;
       if (property.IsArray) {
       } else if (property.isEnum) {
@@ -57,6 +48,26 @@ export class StationProfilePropertyConverter {
     }
 
     return partialData;
+  }
+  private async _listProperty(item: PartialData) {
+    let keys = Object.keys(item);
+
+    let arr: Promise<Property>[] = [];
+    for (let i = 0; i < keys.length; i++) {
+      let key = keys[i];
+
+      if (!this._propertyMap.has(key)) {
+        arr.push(this._stationProfileService.property.get(keys[i]));
+      }
+    }
+    let res = await Promise.all(arr);
+    res.forEach((property) => {
+      let extendedProperty = plainToInstance<ExtendedProperty, any>(
+        ExtendedProperty,
+        instanceToPlain(property)
+      );
+      this._propertyMap.set(extendedProperty.Name, extendedProperty);
+    });
   }
   private _fromEnum(value: number, enums: ValueNamePair[]) {
     if (value) {

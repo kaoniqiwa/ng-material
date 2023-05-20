@@ -4,8 +4,8 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthorizationRequestService } from '../common/service/authorization-request.service';
 import { User } from '../network/entity/user.entity';
 import { LocalStorageService } from '../common/service/local-storage.service';
-import {  CookieService } from 'ngx-cookie-service';
-import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RoutePath } from '../app-routing.path';
 
 @Component({
@@ -14,6 +14,8 @@ import { RoutePath } from '../app-routing.path';
   styleUrls: ['./login.component.less'],
 })
 export class LoginComponent implements OnInit {
+  retUrl: string | null = null;
+
   disableLogin: boolean = false;
 
   formGroup = this._fb.group({
@@ -25,9 +27,14 @@ export class LoginComponent implements OnInit {
     private _fb: FormBuilder,
     private _toastrService: ToastrService,
     private _authorizationService: AuthorizationRequestService,
-    private _localStorageService: LocalStorageService,
-    private _cookieService: CookieService
-  ) {}
+    private activatedRoute: ActivatedRoute
+  ) {
+    this.activatedRoute.queryParamMap.subscribe((params) => {
+      this.retUrl = params.get('retUrl');
+      console.log(this.retUrl);
+      console.log('LoginComponent/ngOnInit ' + this.retUrl);
+    });
+  }
 
   ngOnInit(): void {}
   async login() {
@@ -38,7 +45,9 @@ export class LoginComponent implements OnInit {
       try {
         let res = await this._authorizationService.login(username, password);
         if (res instanceof User) {
-          this._router.navigateByUrl(RoutePath.garbage_profiles);
+          if (this.retUrl != null) {
+            this._router.navigateByUrl(this.retUrl);
+          } else this._router.navigateByUrl(RoutePath.garbage_profiles);
         }
       } catch (e) {
         this._toastrService.error('账号或密码错误');

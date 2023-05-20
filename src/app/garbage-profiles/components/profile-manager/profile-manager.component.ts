@@ -9,6 +9,8 @@ import {
 import { Page } from 'src/app/network/entity/page.entity';
 import { PageEvent } from '@angular/material/paginator';
 import { StationProfilePropertyConverter } from '../../converter/station-profile-property.converter';
+import { HttpClient } from '@angular/common/http';
+import { delay } from 'rxjs';
 
 @Component({
   selector: 'profile-manager',
@@ -50,10 +52,9 @@ export class ProfileManagerComponent implements OnInit {
 
   constructor(
     public language: LanguageService,
-    private _business: ProfileManagerBusiness
-  ) {
-    console.log(this.language);
-  }
+    private _business: ProfileManagerBusiness,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
     this._init();
@@ -63,42 +64,20 @@ export class ProfileManagerComponent implements OnInit {
     // if (config.length) {
     //   this.searchInfo.IdsOrNames = config;
     // }
-    this.searchInfo.IdsOrNames = [
-      'ProfileName',
-      'Province',
-      'City',
-      'County',
-      'Street',
-      'Committee',
-      'Address',
-      'Contact',
-      'ContactPhoneNo',
-      'Id',
-      'GarbageStationName',
-      'CommunityName',
-      'StrongCurrentWire',
-      'StrongCurrentWireMode',
-      'StrongCurrentWireLength',
-      'LFImageUrl',
-      'RFImageUrl',
-      'FImageUrl',
-      'PowerImageUrl',
-      'CameraNumber',
-      'Functions',
-      'GarbageStationType',
-      'Remarks',
-      'MaterialItems',
-    ];
+    this.searchInfo.IdsOrNames = ['ProfileState', 'UpdateTime'];
 
     let { Data, Page } = await this._business.listPartialData(this.searchInfo);
     this.dataSource = [...Data, ...Data];
     this.page = Page;
-    // console.log(Data);
+    console.log(Data);
   }
 
   pageEvent(pageInfo: PageEvent) {
     if (this.searchInfo.PageIndex == pageInfo.pageIndex + 1) return;
     this.searchInfo.PageIndex = pageInfo.pageIndex + 1;
     this._init();
+  }
+  getFruits() {
+    this.http.get<any[]>('/api/interceptor.php').subscribe(console.log);
   }
 }

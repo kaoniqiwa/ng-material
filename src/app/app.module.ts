@@ -15,6 +15,7 @@ import zh from '@angular/common/locales/zh';
 import { registerLocaleData } from '@angular/common';
 import { AppConfigService } from './common/service/app-init.service';
 import { AppHttpInterceptor } from './common/service/app-interceptor.service';
+import { CancelInterceptor } from './common/service/cancel-interceptor.service';
 
 registerLocaleData(zh, 'zh-CN');
 
@@ -41,6 +42,11 @@ registerLocaleData(zh, 'zh-CN');
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AppHttpInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CancelInterceptor,
       multi: true,
     },
     {
