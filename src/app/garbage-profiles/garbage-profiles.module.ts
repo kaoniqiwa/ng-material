@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ProfileManagerComponent } from './components/profile-manager/profile-manager.component';
 import { LanguageService } from './service/language-service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,9 +23,12 @@ import { LanguageService } from './service/language-service';
     MaterialProfileComponent,
     ProfileManagerComponent,
   ],
-  imports: [HowellModule, CommonModule, GarbageProfilesRoutingModule],
-  providers: [
-    LanguageService
+  imports: [
+    HowellModule,
+    CommonModule,
+    FormsModule,
+    GarbageProfilesRoutingModule,
   ],
+  providers: [],
 })
 export class GarbageProfilesModule {}

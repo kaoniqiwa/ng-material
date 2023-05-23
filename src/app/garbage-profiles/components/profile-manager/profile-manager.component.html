@@ -17,64 +17,59 @@
         </button>
       </div>
       <div class="right-wrapper">
-        <div class="item">
-          <!-- {{ language.stationProfileProperties["City"] }} -->
-          <select>
-            <option value="">s</option>
-            <option value="">s</option>
-            <option value="">s</option>
-          </select>
+        <div class="operate-item">
+          <div class="title">
+            {{ language.stationProfileProperties["ProfileState"] }}:
+          </div>
+          <div class="content">
+            <select [(ngModel)]="proxyified.IdsOrNames">
+              <option value="">全部</option>
+              <option
+                [value]="state.Value"
+                *ngFor="
+                  let state of language.stationProfileEnums['ProfileState']
+                "
+              >
+                {{ state.Name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="operate-item">
+          <div class="title">
+            {{ language.stationProfileProperties["ProfileState"] }}:
+          </div>
+          <div class="content"><input type="text" /></div>
         </div>
       </div>
     </div>
   </div>
   <div class="profile-manager-main vertical-main">
-    <div>
-      <table>
-        <!-- <ng-template [ngTemplateOutlet]="colGroup"></ng-template> -->
-        <thead>
-          <tr>
-            <!-- <th *ngFor="let propertyName of searchInfo.IdsOrNames">
-            {{ language.stationProfileProperties[propertyName] }}
-          </th> -->
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-            <th>啊拉断阀</th>
-          </tr>
-        </thead>
-      </table>
-    </div>
+    <custom-table>
+      <ng-container ngProjectAs="table-header">
+        <table>
+          <thead>
+            <tr>
+              <th *ngFor="let propertyName of searchInfo.IdsOrNames">
+                {{ language.stationProfileProperties[propertyName] }}
+              </th>
+            </tr>
+          </thead>
+        </table>
+      </ng-container>
+
+      <ng-container ngProjectAs="table-body">
+        <table>
+          <tbody>
+            <tr *ngFor="let model of dataSource">
+              <td *ngFor="let propertyName of searchInfo.IdsOrNames">
+                {{ model[propertyName] }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+    </custom-table>
   </div>
   <div
     class="profile-manager-footer vertical-footer"

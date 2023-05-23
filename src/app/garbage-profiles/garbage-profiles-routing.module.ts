@@ -7,7 +7,6 @@ import { StationArchiveComponent } from './components/station-archive/station-ar
 import { StationProfileComponent } from './components/station-profile/station-profile.component';
 import { MaterialProfileComponent } from './components/material-profile/material-profile.component';
 import { MaintenanceProfileComponent } from './components/maintenance-profile/maintenance-profile.component';
-import { LanguageService } from './service/language-service';
 import { ProfileManagerComponent } from './components/profile-manager/profile-manager.component';
 import { CookieGuard } from '../common/service/cookie.guard';
 import { AuthGuard } from '../common/service/auth.guard';
@@ -25,7 +24,6 @@ const routes: Routes = [
     component: UnderwaterComponent,
     canActivate: [AuthGuard, CookieGuard],
     canActivateChild: [AuthGuard, CookieGuard],
-    canDeactivate: [DeactivateGuard],
 
     children: [
       {
@@ -64,6 +62,7 @@ const routes: Routes = [
                   {
                     path: 'profile-manager',
                     component: ProfileManagerComponent,
+                    canDeactivate: [DeactivateGuard],
 
                     data: {
                       breadcrumb: '档案管理',
@@ -97,7 +96,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class GarbageProfilesRoutingModule {
-  // 事先拉取 Property 数据
-  constructor(private _languageService: LanguageService) {}
-}
+export class GarbageProfilesRoutingModule {}

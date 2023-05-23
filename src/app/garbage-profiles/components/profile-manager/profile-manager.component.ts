@@ -39,6 +39,7 @@ export class ProfileManagerComponent implements OnInit {
       'UpdateTime',
     ],
   };
+  proxyified = this.proxyify();
 
   dataSource: ProfileManagerModel[] = [];
 
@@ -56,28 +57,81 @@ export class ProfileManagerComponent implements OnInit {
     private http: HttpClient
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this._init();
+    console.log(this.language.stationProfileEnums);
   }
   private async _init() {
     let config = await this._business.getProfileConfig();
+
     // if (config.length) {
     //   this.searchInfo.IdsOrNames = config;
     // }
-    this.searchInfo.IdsOrNames = ['ProfileState', 'UpdateTime'];
 
-    let { Data, Page } = await this._business.listPartialData(this.searchInfo);
-    this.dataSource = [...Data, ...Data];
+    this._getData();
+  }
+
+  private async _getData() {
+    let { Data, Page } = await this._business.listPartialData(this.proxyified);
+    this.dataSource = Data;
     this.page = Page;
     console.log(Data);
   }
-
   pageEvent(pageInfo: PageEvent) {
     if (this.searchInfo.PageIndex == pageInfo.pageIndex + 1) return;
     this.searchInfo.PageIndex = pageInfo.pageIndex + 1;
     this._init();
   }
   getFruits() {
+    // 测试服务器延迟返回
     this.http.get<any[]>('/api/interceptor.php').subscribe(console.log);
+  }
+
+  private proxyify() {
+    const _this = this;
+    let handler = {
+      get(target: any, property: string, receiver: any) {
+        if (Reflect.has(target, property)) {
+          return Reflect.get(target, property);
+        } else {
+          throw new ReferenceError(`prop name ${property} does not exist `);
+        }
+      },
+      set(target: any, property: any, value: any, receiver: any) {
+        if (Reflect.has(target, property)) {
+          let descriptor = Reflect.getOwnPropertyDescriptor(target, property)!;
+          if (Reflect.has(descriptor, 'writable')) {
+            if (
+              !Reflect.get(descriptor, 'writable') &&
+              !Reflect.get(descriptor, 'configurable')
+            ) {
+              throw new TypeError('数据属性不可重新赋值');
+            }
+          } else {
+            if (
+              !Reflect.get(descriptor, 'set') &&
+              !Reflect.get(descriptor, 'configurable')
+            ) {
+              throw new TypeError('访问器属性不可重新赋值');
+            }
+          }
+
+          Reflect.set(target, property, value, receiver);
+          _this._getData();
+
+          return true;
+        } else {
+          if (typeof property == 'string') {
+            throw new ReferenceError(`prop name ${property} does not exist `);
+          } else {
+            throw new ReferenceError(
+              `prop name ${Symbol.keyFor(property)} does not exist `
+            );
+          }
+        }
+      },
+    };
+
+    return new Proxy<ProfileManagerSearchInfo>(this.searchInfo, handler);
   }
 }

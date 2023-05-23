@@ -221,9 +221,9 @@ export class AuthorizationRequestService {
    * @param password
    */
   private _storeUserInfo(username: string, password: string) {
-    // 设置cookie 1 小时后过期
+    // 设置cookie 1天 后过期
     let option: CookieOptions = {
-      expires: new Date(Date.now() + 1 * 60 * 60 * 1000),
+      expires: new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
       path: '/',
       secure: false,
     };

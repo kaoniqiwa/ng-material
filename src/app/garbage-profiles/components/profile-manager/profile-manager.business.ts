@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
 import { StationProfileService } from 'src/app/network/request/station-profile/station-profile.service';
 import { ProfileManagerConverter } from './profile-manager.converter';
 import { GetPartialDatasParams } from 'src/app/network/request/station-profile/station-profile.params';
@@ -12,6 +12,7 @@ import {
   ProfileManagerSearchInfo,
 } from './profile-manager.model';
 import { PagedList } from 'src/app/network/entity/page.entity';
+import { ProfileManagerComponent } from './profile-manager.component';
 
 @Injectable()
 export class ProfileManagerBusiness {
@@ -28,12 +29,18 @@ export class ProfileManagerBusiness {
       UserConfigType.GarbageStationProfileProperty
     );
   }
-  async listPartialData(searchInfo: ProfileManagerSearchInfo) {
+  async listPartialData({
+    PageIndex,
+    PageSize,
+    IdsOrNames,
+  }: ProfileManagerSearchInfo) {
     let params = new GetPartialDatasParams();
-    params.PropertyIds = searchInfo.IdsOrNames;
+    params.PropertyIds = IdsOrNames;
+    params.PageIndex = PageIndex;
+    params.PageSize = PageSize;
 
     let condition = new Condition();
-    condition.Value = 2;
+    condition.Value = 6;
     condition.PropertyId = 'ProfileState';
     condition.Operator = ConditionOperator.Eq;
     params.Conditions = [condition];
