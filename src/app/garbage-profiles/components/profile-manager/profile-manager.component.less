@@ -1,12 +1,13 @@
 .profile-manager {
-  &-header {
-  }
-  &-main {
-  }
 }
-
 table {
-  th {
-    white-space: nowrap;
+  width: auto !important;
+  // min-width: 100%;
+}
+::ng-deep .custom-table {
+  .table-container {
+    .table-body-container {
+      overflow: visible !important;
+    }
   }
 }

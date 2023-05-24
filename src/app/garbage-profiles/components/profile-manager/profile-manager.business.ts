@@ -13,11 +13,13 @@ import {
 } from './profile-manager.model';
 import { PagedList } from 'src/app/network/entity/page.entity';
 import { ProfileManagerComponent } from './profile-manager.component';
+import { LanguageService } from '../../service/language-service';
 
 @Injectable()
 export class ProfileManagerBusiness {
   constructor(
     private _stationProfileService: StationProfileService,
+    private _languageService: LanguageService,
     private _userService: UserService,
     private _localStorage: LocalStorageService,
     private _converter: ProfileManagerConverter
@@ -29,21 +31,26 @@ export class ProfileManagerBusiness {
       UserConfigType.GarbageStationProfileProperty
     );
   }
-  async listPartialData({
-    PageIndex,
-    PageSize,
-    IdsOrNames,
-  }: ProfileManagerSearchInfo) {
+  /**
+   *  Proxy对象不能解构赋值
+   * @param searchInfo
+   * @returns
+   */
+  async listPartialData(searchInfo: ProfileManagerSearchInfo) {
     let params = new GetPartialDatasParams();
-    params.PropertyIds = IdsOrNames;
-    params.PageIndex = PageIndex;
-    params.PageSize = PageSize;
+    params.PageIndex = searchInfo.PageIndex;
+    params.PageSize = searchInfo.PageSize;
 
-    let condition = new Condition();
-    condition.Value = 6;
-    condition.PropertyId = 'ProfileState';
-    condition.Operator = ConditionOperator.Eq;
-    params.Conditions = [condition];
+    let ids: string[] = [];
+    searchInfo.IdsOrNames.forEach((key) => {
+      if (this._languageService.stationProfileMap.has(key)) {
+        ids.push(this._languageService.stationProfileMap.get(key)!.Id);
+      }
+    });
+    params.PropertyIds = ids;
+
+    let conditions = await this._generateCondition(searchInfo, ids);
+    params.Conditions = conditions.concat(conditions);
 
     let { Data, Page } = await this._stationProfileService.partialData.list(
       params
@@ -54,5 +61,24 @@ export class ProfileManagerBusiness {
       Data: data,
       Page,
     } as PagedList<ProfileManagerModel>;
+  }
+
+  private async _generateCondition(
+    searchInfo: ProfileManagerSearchInfo,
+    ids: string[]
+  ) {
+    const conditions: Condition[] = [];
+    if (searchInfo.FuzzyQuery) {
+      ids.map((id) => {
+        let condition = new Condition<string>();
+        condition.Value = searchInfo.FuzzyQuery;
+        condition.PropertyId = id;
+        condition.Operator = ConditionOperator.Like;
+        condition.OrGroup = 1;
+        conditions.push(condition);
+      });
+    }
+
+    return conditions;
   }
 }

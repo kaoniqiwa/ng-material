@@ -36,5 +36,6 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     ProfileStateColorPipe,
   ],
   imports: [CommonModule, FormsModule, MaterialModule, RouterModule],
+  providers: [],
 })
 export class HowellModule {}

@@ -1,4 +1,5 @@
 <div class="profile-manager vertical-layout">
+  {{ searchInfo | json }}
   <div class="profile-manager-header vertical-header">
     <div class="hw-second-title" (click)="getFruits()">{{ title }}</div>
     <div class="operate-bar" style="flex-basis: 100%; margin-top: 5px">
@@ -19,13 +20,13 @@
       <div class="right-wrapper">
         <div class="operate-item">
           <div class="title">
-            {{ language.stationProfileProperties["ProfileState"] }}:
+            {{ language.stationProfileDescription["ProfileState"] }}：
           </div>
           <div class="content">
-            <select [(ngModel)]="proxyified.IdsOrNames">
-              <option value="">全部</option>
+            <select [(ngModel)]="proxySearchInfo.enums['ProfileState']">
+              <option [ngValue]="undefined">全部</option>
               <option
-                [value]="state.Value"
+                [ngValue]="state.Value"
                 *ngFor="
                   let state of language.stationProfileEnums['ProfileState']
                 "
@@ -36,10 +37,10 @@
           </div>
         </div>
         <div class="operate-item">
-          <div class="title">
-            {{ language.stationProfileProperties["ProfileState"] }}:
+          <div class="title">综合查询：</div>
+          <div class="content">
+            <input type="text" [(ngModel)]="proxySearchInfo.FuzzyQuery" />
           </div>
-          <div class="content"><input type="text" /></div>
         </div>
       </div>
     </div>
@@ -48,18 +49,19 @@
     <custom-table>
       <ng-container ngProjectAs="table-header">
         <table>
+          <ng-template [ngTemplateOutlet]="colGroupHead"></ng-template>
           <thead>
             <tr>
               <th *ngFor="let propertyName of searchInfo.IdsOrNames">
-                {{ language.stationProfileProperties[propertyName] }}
+                {{ language.stationProfileDescription[propertyName] }}
               </th>
             </tr>
           </thead>
         </table>
       </ng-container>
-
       <ng-container ngProjectAs="table-body">
         <table>
+          <ng-template [ngTemplateOutlet]="colGroupHead"></ng-template>
           <tbody>
             <tr *ngFor="let model of dataSource">
               <td *ngFor="let propertyName of searchInfo.IdsOrNames">
@@ -92,8 +94,8 @@
   </div>
 </div>
 
-<!-- <ng-template #colGroup>
+<ng-template #colGroupHead>
   <colgroup>
-    <col *ngFor="let item of tdWidth" [style.width]="item" />
+    <col *ngFor="let item of widths" [style.min-width]="item + 'px'" />
   </colgroup>
-</ng-template> -->
+</ng-template>

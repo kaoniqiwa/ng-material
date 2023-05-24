@@ -5,12 +5,14 @@ import { ProfileManagerBusiness } from './profile-manager.business';
 import {
   ProfileManagerModel,
   ProfileManagerSearchInfo,
+  ProfileManagerTextOptions,
 } from './profile-manager.model';
 import { Page } from 'src/app/network/entity/page.entity';
 import { PageEvent } from '@angular/material/paginator';
 import { StationProfilePropertyConverter } from '../../converter/station-profile-property.converter';
 import { HttpClient } from '@angular/common/http';
 import { delay } from 'rxjs';
+import { KeyValue } from '@angular/common';
 
 @Component({
   selector: 'profile-manager',
@@ -28,8 +30,9 @@ export class ProfileManagerComponent implements OnInit {
   // 用 proxy 双向绑定
   searchInfo: ProfileManagerSearchInfo = {
     PageIndex: 1,
-    PageSize: 1,
+    PageSize: 10,
     IdsOrNames: [
+      'Number',
       'ProfileName',
       'Province',
       'County',
@@ -37,11 +40,21 @@ export class ProfileManagerComponent implements OnInit {
       'Committee',
       'ProfileState',
       'UpdateTime',
+      'GarbageStationName',
+      'CommunityName',
+      'StrongCurrentWire',
+      'StrongCurrentWireMode',
+      'StrongCurrentWireLength',
     ],
+    enums: [],
+    FuzzyQuery: '',
   };
-  proxyified = this.proxyify();
+  proxySearchInfo = this.proxyify();
 
   dataSource: ProfileManagerModel[] = [];
+  thWidth: number[] = [];
+  tbodyWidth: number[] = [];
+  widths: number[] = [];
 
   page: Page = {
     PageIndex: 0,
@@ -55,25 +68,65 @@ export class ProfileManagerComponent implements OnInit {
     public language: LanguageService,
     private _business: ProfileManagerBusiness,
     private http: HttpClient
-  ) {}
+  ) {
+    this.thWidth = this.proxySearchInfo.IdsOrNames.map((key, index) => {
+      let textWidth = this.getActualWidthOfChars(
+        this.language.stationProfileDescription[key],
+        {
+          size: 24,
+        }
+      );
+      if (index == 0) {
+        return textWidth + 24 + 5;
+      } else {
+        return textWidth + 5 + 5;
+      }
+    });
+    console.log(this.thWidth);
+  }
 
   ngOnInit() {
     this._init();
-    console.log(this.language.stationProfileEnums);
   }
   private async _init() {
     let config = await this._business.getProfileConfig();
 
-    // if (config.length) {
-    //   this.searchInfo.IdsOrNames = config;
-    // }
+    console.log(config);
+    if (config.length) {
+      // this.searchInfo.IdsOrNames = config;
+    }
 
     this._getData();
   }
 
   private async _getData() {
-    let { Data, Page } = await this._business.listPartialData(this.proxyified);
+    let { Data, Page } = await this._business.listPartialData(
+      this.proxySearchInfo
+    );
     this.dataSource = Data;
+
+    for (let i = 0; i < this.proxySearchInfo.IdsOrNames.length; i++) {
+      let key = this.proxySearchInfo.IdsOrNames[i];
+      for (let j = 0; j < this.dataSource.length; j++) {
+        let model = this.dataSource[j];
+        let text = model[key];
+        let textWidth = this.getActualWidthOfChars(text, { size: 18 });
+        if (j == 0) {
+          textWidth += 24 + 5;
+        } else {
+          textWidth += 5 + 5;
+        }
+        if (this.tbodyWidth[i]) {
+          this.tbodyWidth[i] = Math.max(this.tbodyWidth[i], textWidth);
+        } else {
+          this.tbodyWidth[i] = textWidth;
+        }
+      }
+    }
+    console.log(this.tbodyWidth);
+    this.widths = this.tbodyWidth.map((w, index) => {
+      return Math.max(w, this.thWidth[index]);
+    });
     this.page = Page;
     console.log(Data);
   }
@@ -92,7 +145,7 @@ export class ProfileManagerComponent implements OnInit {
     let handler = {
       get(target: any, property: string, receiver: any) {
         if (Reflect.has(target, property)) {
-          return Reflect.get(target, property);
+          return Reflect.get(target, property, receiver);
         } else {
           throw new ReferenceError(`prop name ${property} does not exist `);
         }
@@ -133,5 +186,16 @@ export class ProfileManagerComponent implements OnInit {
     };
 
     return new Proxy<ProfileManagerSearchInfo>(this.searchInfo, handler);
+  }
+  getActualWidthOfChars(text: string, options: ProfileManagerTextOptions = {}) {
+    const { size = 14, family = 'Source Han Sans CN Normal' } = options;
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d')!;
+    ctx.font = `${size}px ${family}`;
+    const metrics = ctx.measureText(text);
+    const actual =
+      Math.abs(metrics.actualBoundingBoxLeft) +
+      Math.abs(metrics.actualBoundingBoxRight);
+    return Math.max(metrics.width, actual);
   }
 }
