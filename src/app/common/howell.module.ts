@@ -11,6 +11,8 @@ import { BreadcrumbComponent } from './components/breadcrumb/breadcrumb.componen
 import { CustomTableComponent } from './components/custom-table/custom-table.component';
 import { FormsModule } from '@angular/forms';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { ThemifyIconComponent } from './components/themify-icon/themify-icon.component';
+import { IconfontIconComponent } from './components/iconfont-icon/iconfont-icon.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     BreadcrumbComponent,
     CustomTableComponent,
     PaginatorComponent,
+    ThemifyIconComponent,
+    IconfontIconComponent,
 
     ProfileStateColorPipe,
   ],
@@ -32,6 +36,8 @@ import { PaginatorComponent } from './components/paginator/paginator.component';
     BreadcrumbComponent,
     CustomTableComponent,
     PaginatorComponent,
+    ThemifyIconComponent,
+    IconfontIconComponent,
 
     ProfileStateColorPipe,
   ],
