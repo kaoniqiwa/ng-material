@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+// webpack本身能处理json文件,只需打开 tsconfig=>resolveJsonModule
 import Config from 'src/assets/json/iconfont.json';
 
 console.log(Config);
